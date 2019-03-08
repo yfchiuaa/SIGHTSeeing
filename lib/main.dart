@@ -39,13 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
         tabBar: CupertinoTabBar(
           items: [
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home),
-              title: Text('主页'),
-              
-            ),
-            BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.profile_circled),
-              title: Text('注册用户'),
+              title: Text('建立档案'),
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.search),
