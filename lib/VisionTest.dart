@@ -8,7 +8,7 @@ class VisionTest extends StatefulWidget{
 
 class _VisionTestState extends State<VisionTest> {
   final double TEXT_HEIGHT = 60;
-/*
+
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,
@@ -32,7 +32,7 @@ class _VisionTestState extends State<VisionTest> {
       ),
     )??false;
   }
-*/
+
   SizedBox _showingText( String text, double boxHeight, double ratio, TextAlign alignment){
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
@@ -66,10 +66,10 @@ class _VisionTestState extends State<VisionTest> {
     for(int i = 0; i < 6; i++)
       _controller.add( new TextEditingController());
 
-    //return WillPopScope(
-      //onWillPop: _onBackPressed,
-      //child: Scaffold(
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+    // return Scaffold(
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -142,7 +142,7 @@ class _VisionTestState extends State<VisionTest> {
               ),
             ],
         ),
-      //),
+      ),
     );
   }
   void _saveData(){
