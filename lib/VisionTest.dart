@@ -8,6 +8,8 @@ class VisionTest extends StatefulWidget{
 
 class _VisionTestState extends State<VisionTest> {
   final double TEXT_HEIGHT = 60;
+  final List<TextEditingController> _controller = [];
+  final List<FocusNode> _FocusNode = [];
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -37,7 +39,7 @@ class _VisionTestState extends State<VisionTest> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       width: ratio * screenWidth,
-      height: boxHeight,
+      // height: boxHeight,
       child: Text(text,
         textAlign: alignment,
         style: TextStyle(
@@ -47,32 +49,43 @@ class _VisionTestState extends State<VisionTest> {
     );
   }
 
-  SizedBox _inputTextField( double boxHeight, double ratio, TextEditingController _controller){
+  SizedBox _inputTextField( double boxHeight, double ratio, TextEditingController _controller,
+      FocusNode firstNode, FocusNode nextNode){
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       width: ratio * screenWidth,
-      height: boxHeight,
+      // height: boxHeight,
       child: TextField(
         controller: _controller,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
-        textInputAction: TextInputAction.next,
+        textInputAction: (nextNode != null ) ? TextInputAction.next : TextInputAction.done,
+        focusNode: firstNode,
+        onSubmitted: (term){
+          firstNode.unfocus();
+          if(nextNode != null) {
+            FocusScope.of(context).requestFocus(nextNode);
+          }
+        },
+
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<TextEditingController> _controller = [];
-    for(int i = 0; i < 6; i++)
-      _controller.add( new TextEditingController());
+    for(int i = 0; i < 6; i++) {
+      _controller.add(new TextEditingController());
+      _FocusNode.add(new FocusNode());
+    }
+    int _nodeInstantiated = 0;
 
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-    // return Scaffold(
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        resizeToAvoidBottomPadding: false,
+        body: ListView(
             children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -80,33 +93,43 @@ class _VisionTestState extends State<VisionTest> {
                   _showingText("左", TEXT_HEIGHT, 0.2, TextAlign.center),
                   SizedBox(width: MediaQuery.of(context).size.width*0.05),
                   _showingText("右", TEXT_HEIGHT, 0.2, TextAlign.center),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _showingText("裸眼远视力", TEXT_HEIGHT, 0.4, TextAlign.center),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[0]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], _FocusNode[++_nodeInstantiated]),
                   SizedBox(width: MediaQuery.of(context).size.width*0.05),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[1]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], _FocusNode[++_nodeInstantiated]),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _showingText("戴镜远视力", TEXT_HEIGHT, 0.4, TextAlign.center),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[2]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], _FocusNode[++_nodeInstantiated]),
                   SizedBox(width: MediaQuery.of(context).size.width*0.05),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[3]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], _FocusNode[++_nodeInstantiated]),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _showingText("小孔视力", TEXT_HEIGHT, 0.4, TextAlign.center),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[4]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], _FocusNode[++_nodeInstantiated]),
                   SizedBox(width: MediaQuery.of(context).size.width*0.05),
-                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[5]),
+                  _inputTextField(TEXT_HEIGHT, 0.2, _controller[_nodeInstantiated],
+                      _FocusNode[_nodeInstantiated], null),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 ],
               ),
 
@@ -117,7 +140,6 @@ class _VisionTestState extends State<VisionTest> {
                   SizedBox(width: MediaQuery.of(context).size.width * 0.4),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.1,
                     child: RaisedButton(
                       onPressed: (){
                         /// button for save and back to last page
