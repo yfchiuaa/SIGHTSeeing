@@ -45,15 +45,17 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   List<Widget> pages = List();
+  List<String> _visionTestList = ["VisionTest", "裸眼远视力", "戴镜远视力", "小孔视力"];
+  List<String> _optometryList = ["Optometry", "散瞳前屈光度", "散瞳前散光度", "散瞳前轴位度"];
 
   @override
   void initState() {
     pages
-      ..add(VisionTest())
-      ..add(VisionTest())
+      ..add( VisionTest(checkingDetails: _visionTestList))
+      ..add( VisionTest(checkingDetails: _optometryList))
       ..add(DatabasePage())
-      ..add(VisionTest())
-      ..add(VisionTest())
+      ..add( VisionTest(checkingDetails: _visionTestList))
+      ..add( VisionTest(checkingDetails: _optometryList))
     ;
     super.initState();
   }
