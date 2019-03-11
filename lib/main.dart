@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'VisionTest.dart';
+import 'VisionOptometry.dart';
 import 'Database.dart';
 
 void main() => runApp(MyApp());
@@ -45,17 +45,18 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   List<Widget> pages = List();
-  List<String> _visionTestList = ["VisionTest", "裸眼远视力", "戴镜远视力", "小孔视力"];
-  List<String> _optometryList = ["Optometry", "散瞳前屈光度", "散瞳前散光度", "散瞳前轴位度"];
+
+  List<String> _visionTestList = ["视力检查", "裸眼远视力", "戴镜远视力", "小孔视力"];
+  List<String> _optometryList = ["验光", "散瞳前屈光度", "散瞳前散光度", "散瞳前轴位度"];
 
   @override
   void initState() {
     pages
-      ..add( VisionTest(checkingDetails: _visionTestList))
-      ..add( VisionTest(checkingDetails: _optometryList))
+      ..add( VisionOptometry(checkingDetails: _visionTestList))
+      ..add( VisionOptometry(checkingDetails: _optometryList))
       ..add(DatabasePage())
-      ..add( VisionTest(checkingDetails: _visionTestList))
-      ..add( VisionTest(checkingDetails: _optometryList))
+      ..add( VisionOptometry(checkingDetails: _visionTestList))
+      ..add( VisionOptometry(checkingDetails: _optometryList))
     ;
     super.initState();
   }
@@ -63,21 +64,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('验光'),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home),
-                tooltip: 'Air it',
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
-                }
-            ),
-          ],
-          backgroundColor: Colors.purple
-        // TODO: the button text
-      ),
-
       body: pages[_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(

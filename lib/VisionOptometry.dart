@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'login.dart';
 
-class VisionTest extends StatefulWidget{
+class VisionOptometry extends StatefulWidget{
   final List<String> checkingDetails;
 
-  VisionTest({Key key, @required this.checkingDetails}) : super(key : key);
+  VisionOptometry({Key key, @required this.checkingDetails}) : super(key : key);
 
   @override
-  _VisionTestState createState() => _VisionTestState();
+  _VisionOptometryState createState() => _VisionOptometryState();
 }
 
-class _VisionTestState extends State<VisionTest> {
-  final double TEXT_HEIGHT = 60;
+class _VisionOptometryState extends State<VisionOptometry> {
+  final double TEXT_HEIGHT = 60; // To use this, delete the comment on height: boxHeight in _inputTextField
   final List<TextEditingController> _controller = [];
   final List<FocusNode> _FocusNode = [];
 
@@ -56,7 +57,6 @@ class _VisionTestState extends State<VisionTest> {
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       width: ratio * screenWidth,
-      // height: boxHeight,
       child: Text(text,
         textAlign: alignment,
         style: TextStyle(
@@ -105,7 +105,7 @@ class _VisionTestState extends State<VisionTest> {
 
   List<Widget> _constructBodyList(){
     List<Widget> _bodyWidgetList = [];
-      _bodyWidgetList
+    _bodyWidgetList
       ..add(
         SizedBox(height: MediaQuery.of(context).size.height * 0.1),
       )
@@ -118,47 +118,47 @@ class _VisionTestState extends State<VisionTest> {
           _showingText("右", TEXT_HEIGHT, 0.2, TextAlign.center),
           SizedBox(width: MediaQuery.of(context).size.width * 0.1),
         ],
-        )
+      )
       );
 
-      for(int i = 1; i < widget.checkingDetails.length; ++i) {
-        if(i != widget.checkingDetails.length - 1)
-          _bodyWidgetList.add(_inputRow(i, false));
-        else _bodyWidgetList.add(_inputRow(i, true));
-      }
+    for(int i = 1; i < widget.checkingDetails.length; ++i) {
+      if(i != widget.checkingDetails.length - 1)
+        _bodyWidgetList.add(_inputRow(i, false));
+      else _bodyWidgetList.add(_inputRow(i, true));
+    }
 
-      _bodyWidgetList
+    _bodyWidgetList
       ..add(SizedBox(height: MediaQuery.of(context).size.height * 0.05))
       ..add(
-        Row(
-          children: <Widget>[
-            SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.2,
-              child: RaisedButton(
-                onPressed: (){
-                  _saveData();
-                  Navigator.pop(context);
-                },
-                child: Text("完成"),
+          Row(
+            children: <Widget>[
+              SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: RaisedButton(
+                  onPressed: (){
+                    _saveData();
+                    Navigator.pop(context);
+                  },
+                  child: Text("完成"),
+                ),
               ),
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.25,
-              child: RaisedButton(
-                onPressed: (){
-                  for(int i = 0; i < _controller.length; i++)
-                    _controller[i].clear();
-                },
-                child: Text("清除所有"),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.25,
+                child: RaisedButton(
+                  onPressed: (){
+                    for(int i = 0; i < _controller.length; i++)
+                      _controller[i].clear();
+                  },
+                  child: Text("清除所有"),
+                ),
               ),
-            ),
-          ],
-        )
+            ],
+          )
       );
 
-      return _bodyWidgetList;
+    return _bodyWidgetList;
   }
 
   @override
@@ -169,8 +169,22 @@ class _VisionTestState extends State<VisionTest> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+            title: Text(widget.checkingDetails[0]),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.home),
+                  tooltip: 'Air it',
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+                  }
+              ),
+            ],
+            backgroundColor: Colors.purple
+          // TODO: the button text
+        ),
         body: ListView(
-            children: _constructBodyList(),
+          children: _constructBodyList(),
         ),
       ),
     );
