@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'SignUp.dart';
-import 'Database.dart';
-import 'Examine.dart';
 import 'login.dart';
+import 'VisionTest.dart';
+import 'Database.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,98 +9,109 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(title: 'Apps demo'),
+    return MaterialApp(
+      title: 'Flutter Code Sample for material.Scaffold',
+      // theme: share color and font through the apps
+      theme: ThemeData(
+        // Define the default Brightness and Colors
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+
+        // Define the default Font Family
+        fontFamily: 'Montserrat',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
+      home: MyStatefulWidget(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState(){
+    return _MyStatefulWidgetState();
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _selectedIndex = 0;
+  List<Widget> pages = List();
+
+  @override
+  void initState() {
+    pages
+      ..add(VisionTest())
+      ..add(VisionTest())
+      ..add(DatabasePage())
+      ..add(VisionTest())
+      ..add(VisionTest())
+    ;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return CupertinoPageScaffold(
-      child: CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home),
-              title: Text('主页'),
-              
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.profile_circled),
-              title: Text('注册用户'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.search),
-              title: Text('检查'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.collections_solid),
-              title: Text('资料库'),
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('验光'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home),
+                tooltip: 'Air it',
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+                }
             ),
           ],
-        ),
+          backgroundColor: Colors.purple
+        // TODO: the button text
+      ),
 
-        tabBuilder: (context, index) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+      body: pages[_selectedIndex],
 
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Icon(CupertinoIcons.home),
-                  Text("主頁"),
-                ],
-              ),
+      bottomNavigationBar: BottomNavigationBar(
+        // Avoid the problem of bottom becoming white
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.panorama_fish_eye),
+              title: Text('视力检查')
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              title: Text('验光')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              title: Text('Profile')
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              title: Text('Slip lamp')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.payment),
+              title: Text('Consultation')
+          )
 
-              RaisedButton(
-                textColor: Colors.white,
-                color: Colors.black,
-                child: Text("登出"),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-              ),
+          // TODO: Bottom navifation bar can only have 3 or 5 items
+        ],
+        currentIndex: _selectedIndex,
+        fixedColor: Colors.deepPurple,
 
-              RaisedButton(
-                child: Text('注册用户'),
-                onPressed: (){},
-              ),
-
-              RaisedButton(
-                child: Text('检查'),
-                onPressed: (){},
-
-              ),
-
-              RaisedButton(
-                child: Text('资料库'),
-                onPressed: (){},
-
-              ),
-
-            ],
-          );
-        }   
-      )
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
     );
-    
   }
 }
-
