@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'VisionOptometry.dart';
 import 'Database.dart';
-import 'SlitLamp.dart';
+import 'package:my_app/SlitLampRewrite.dart';
 
 void main() => runApp(MyApp());
 
