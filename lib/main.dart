@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
 import 'VisionOptometry.dart';
 import 'Database.dart';
+import 'SlitLamp.dart';
 
 void main() => runApp(MyApp());
 
@@ -55,7 +55,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ..add( VisionOptometry(checkingDetails: _visionTestList))
       ..add( VisionOptometry(checkingDetails: _optometryList))
       ..add(DatabasePage())
-      ..add( VisionOptometry(checkingDetails: _visionTestList))
+      ..add( SlitLamp())
       ..add( VisionOptometry(checkingDetails: _optometryList))
     ;
     super.initState();
