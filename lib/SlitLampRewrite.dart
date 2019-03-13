@@ -43,7 +43,7 @@ class _SlitLampState extends State<SlitLamp>{
       _components
         ..add(Text(" : "))
         ..add(Expanded( child: TextField(
-          controller: _controllerList[_checkListCreated],
+          controller: _controllerList[_checkListCreated*2 + (isLeft? 0 : 1)],
         )
         ));
     }
@@ -63,6 +63,7 @@ class _SlitLampState extends State<SlitLamp>{
 
   Widget _horizontalThreeChoiceList(List<String> content, bool leftRight, bool isLeft){
     final List<Widget> _horizontalCheckList = [];
+
     if(leftRight) {
       _horizontalCheckList.add(SizedBox(width: MediaQuery.of(context).size.width * 0.025,));
       _horizontalCheckList.add(Text((isLeft ? "左" : "右")));
@@ -74,10 +75,10 @@ class _SlitLampState extends State<SlitLamp>{
       return Row( children: _horizontalCheckList,);
     }
     else{
-      final List<Widget> _oneRow = [];
+      List<Widget> _oneRow = [];
       for(int i = 1; i < content.length; ++i){
         if( i % 3 == 1){
-          _oneRow.clear();
+          _oneRow = [];
           _oneRow.add(SizedBox(width: MediaQuery.of(context).size.width * 0.025,));
         }
         _oneRow.add(_checkingChoice(content[0], content[i], isLeft));
@@ -85,8 +86,9 @@ class _SlitLampState extends State<SlitLamp>{
           _oneRow.add(SizedBox( width: MediaQuery.of(context).size.width * 0.025,));
           _horizontalCheckList.add( Row(children: _oneRow,));
         }
+        else if(i == content.length - 1) _horizontalCheckList.add( Row(children: _oneRow,));
       }
-      return Column(children: _horizontalCheckList,);
+      return Column(children: _horizontalCheckList, mainAxisAlignment: MainAxisAlignment.start,);
     }
   }
 
@@ -97,7 +99,7 @@ class _SlitLampState extends State<SlitLamp>{
         ..add(SizedBox(width: MediaQuery.of(context).size.width * 0.05,))
         ..add(SizedBox(width: MediaQuery.of(context).size.width * 0.2,
           height: MediaQuery.of(context).size.height * 0.4,
-          child: Center(child: Text(_stringList[_checkListCreated][0])),
+          child: Text(_stringList[_checkListCreated][0], style: TextStyle(fontSize: 20),),
         ))
         ..add(Expanded(
           child: _verticalCheckList(_stringList[_checkListCreated], _isLeftRight[_checkListCreated], _isLeftRight[_checkListCreated]),
@@ -120,7 +122,7 @@ class _SlitLampState extends State<SlitLamp>{
             children: <Widget>[
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               SizedBox(height: MediaQuery.of(context).size.height * 0.1,
-              child: Text(_stringList[_checkListCreated][0]),)
+              child: Text(_stringList[_checkListCreated][0], style: TextStyle(fontSize: 20),))
         ]))
         ..add(_horizontalThreeChoiceList(_stringList[_checkListCreated], _isLeftRight[_checkListCreated], _isLeftRight[_checkListCreated]),
         );
