@@ -23,6 +23,18 @@ class _SlitLampState extends State<SlitLamp>{
   final List<TextEditingController> _controllerList = [];
   int _checkListCreated;
 
+  /// _checkingChoice
+  ///  to return a row consists of 3 things: a checkbox, a text, and a text field if other information need to be input
+  ///  and the returned widget don't need to assign size value to it ( i.e. use another SizedBox to wrap this expanded will be error)
+  ///
+  /// @param:
+  /// - testCorner (String) : the name of the test station of this checkbox of this checkbox belongs to
+  /// - content (String) : the text label of the checkbox
+  /// - isLeft (bool) : to identify the checkbox is belongs to left eye or right eye
+  ///
+  /// Inner parameter:
+  /// - onChanged inside checkbox: to denote the string checked by using global string array
+  ///     e.g. when 眼臉/左眼/正常 is clicked, string array will have a new member with value "眼臉左正常"
   Expanded _checkingChoice( String testCorner, String content , bool isLeft){
     final List<Widget> _components = [];
     _controllerList.add(new TextEditingController());
@@ -50,6 +62,11 @@ class _SlitLampState extends State<SlitLamp>{
     return Expanded(child: Row(children: _components,) );
   }
 
+  /// _verticalCheckList
+  /// to return a column of rows of _checkingChoice
+  /// this function is responsible for making the entire checklist
+  ///
+  /// 
   Column _verticalCheckList( List<String> content, bool leftRight, bool isLeft){
     final List<Widget> _verticalCheckList = [];
     if(leftRight) {
