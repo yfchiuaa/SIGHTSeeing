@@ -64,9 +64,13 @@ class _SlitLampState extends State<SlitLamp>{
 
   /// _verticalCheckList
   /// to return a column of rows of _checkingChoice
-  /// this function is responsible for making the entire checklist
+  /// this function is responsible for making the entire checklist (vertical)
   ///
-  /// 
+  /// @param:
+  /// - content (List<String>) : a list consist of the strings to build the checklist
+  ///               content [0] is the station name, and the other is the checking choice
+  /// - leftRight (bool) : to determine whether the station need to separate the result between both eyes
+  /// - isLeft (bool) : to determine whether the list belongs to left eye or right eye
   Column _verticalCheckList( List<String> content, bool leftRight, bool isLeft){
     final List<Widget> _verticalCheckList = [];
     if(leftRight) {
@@ -78,6 +82,15 @@ class _SlitLampState extends State<SlitLamp>{
     return Column( children: _verticalCheckList,);
   }
 
+  /// _verticalCheckList
+  /// to return a column of rows of _checkingChoice
+  /// this function is responsible for making the entire checklist (horizontal)
+  ///
+  /// @param:
+  /// - content (List<String>) : a list consist of the strings to build the checklist
+  ///               content [0] is the station name, and the other is the checking choice
+  /// - leftRight (bool) : to determine whether the station need to separate the result between both eyes
+  /// - isLeft (bool) : to determine whether the list belongs to left eye or right eye
   Widget _horizontalThreeChoiceList(List<String> content, bool leftRight, bool isLeft){
     final List<Widget> _horizontalCheckList = [];
 
@@ -109,6 +122,11 @@ class _SlitLampState extends State<SlitLamp>{
     }
   }
 
+  /// _packageOneTestForm
+  /// to package the components that a test form should have together
+  /// return : a widget (column or row) contains all contents (title of the test, checking lists)
+  ///
+  /// @param : null
   Widget _packageOneTestForm(){
     final List<Widget> _PackingList = [];
     if(_isRow[_checkListCreated]){
@@ -150,6 +168,7 @@ class _SlitLampState extends State<SlitLamp>{
     }
   }
 
+  /// return a list of children of the scaffold body
   List<Widget> _bodyWidgetList(){
     List<Widget> _testChildren = [];
     _checkListCreated = 0;

@@ -29,6 +29,8 @@ class _VisionOptometryState extends State<VisionOptometry> {
     super.initState();
   }
 
+  /// Defines the action when back button pressed
+  /// it pops out an alert window to prevent people in mis-pressing back button
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,
@@ -53,6 +55,13 @@ class _VisionOptometryState extends State<VisionOptometry> {
     )??false;
   }
 
+  /// Return a sized box contains the text showing in the scaffold
+  ///
+  /// @param:
+  /// - text (String) : the text showing
+  /// - boxHeight (double) : defines the sized box height
+  /// - ratio (double) : defines the width of the sized box
+  /// - alignment: defines the alignment of the text
   SizedBox _showingText( String text, double boxHeight, double ratio, TextAlign alignment){
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
@@ -66,6 +75,14 @@ class _VisionOptometryState extends State<VisionOptometry> {
     );
   }
 
+  /// Return a sized box contains the text field for user to input numbers
+  ///
+  /// @param:
+  /// - boxHeight (double) : defines the sized box height
+  /// - ratio (double) : defines the width of the sized box
+  /// - _controller (TextEditingController) : the controller assigned to the text field (need to instantiate before this function is called)
+  /// - firstNode (FocusNode) : the focus node assigned to the text field
+  /// - nextNode (FocusNode) : the next focus node of the text field that should be focused after next button of keyboard is clicked
   SizedBox _inputTextField( double boxHeight, double ratio, TextEditingController _controller,
       FocusNode firstNode, FocusNode nextNode){
     double screenWidth = MediaQuery.of(context).size.width;
@@ -88,6 +105,12 @@ class _VisionOptometryState extends State<VisionOptometry> {
     );
   }
 
+  /// _inputRow
+  /// to pack text and text field together to make a row of inputting
+  ///
+  /// @param
+  /// - row (int) : to denote the index of the row building
+  /// - lastRow (bool) : to denote whether this row is the last row
   Row _inputRow ( int row , bool lastRow ){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
