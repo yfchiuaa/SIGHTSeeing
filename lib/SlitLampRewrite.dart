@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'main.dart';
 
 class SlitLamp extends StatefulWidget{
   @override
