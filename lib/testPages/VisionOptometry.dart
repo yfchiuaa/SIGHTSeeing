@@ -42,21 +42,30 @@ class _VisionOptometryState extends State<VisionOptometry>{
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
+        /// test item
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
           child: Text( testItem, textAlign: TextAlign.center,),
         ),
+        /// textfield of right eye
         Expanded(
           child: TextField(
+            decoration: InputDecoration(
+              border: InputBorder.none
+            ),
             controller: formFieldControllers[rightKey],
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             maxLines: 1,
           ),
         ),
+        /// textfield of left eye
         Expanded(
           child: TextField(
+            decoration: InputDecoration(
+                border: InputBorder.none
+            ),
             controller: formFieldControllers[leftKey],
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
@@ -70,7 +79,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
   List<Widget> _bodyWidgetList(){
     List<Widget> _bodyList = [];
     
-    // the title row
+    /// the title row
     _bodyList.add(
       Row(
         children: <Widget>[
@@ -83,7 +92,8 @@ class _VisionOptometryState extends State<VisionOptometry>{
         ],
       )
     );
-    
+
+    /// add all test items with text field
     for(String testItem in textData){
       _bodyList.add(textFieldRow(testItem));
     }
@@ -125,6 +135,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
             /// columns writing patient number and name
             Container(
               decoration: BoxDecoration(
@@ -155,6 +166,8 @@ class _VisionOptometryState extends State<VisionOptometry>{
                 ],
               ),
             ),
+
+            /// printing title of the test
             Center(child: Text(
               widget.isVision ? Strings.visionTest : Strings.optometry,
               style: TextStyle(fontSize: HEADING_FONTSIZE),
