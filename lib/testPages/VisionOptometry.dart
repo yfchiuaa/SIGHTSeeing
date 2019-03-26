@@ -161,7 +161,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
             ),),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            // TODO: define page body here
+            /// page body here
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
@@ -177,7 +177,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
             Center(
               child: RaisedButton(
                 onPressed: (){
-                  // TODO: pop out from the page with save
+                  // TODO: reuse as  profile checking, edit case to load saveData()
                   _saveData();
                   Navigator.pop(context);
                 },
