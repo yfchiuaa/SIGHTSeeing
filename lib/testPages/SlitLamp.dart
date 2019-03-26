@@ -41,11 +41,14 @@ class _SlitLampState extends State<SlitLamp>{
     for(String choice in choices){
       if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
 
+      /// add a gesture detector detects a tap action on the box with text
       buttons.add(
         Expanded(
             child: GestureDetector(
             onTap: () {
+              /// if the choice is other, we have special
               if (choice == Strings.choice_others && radioValue[key] != choice) {
+                /// show dialog to collect what other information
                 showDialog(context: context,
                     builder: (context) => AlertDialog(
                       title: Text(key + Strings.slit_AlertQuestion),
@@ -56,6 +59,7 @@ class _SlitLampState extends State<SlitLamp>{
                         FlatButton(
                           child: Text(Strings.confirm),
                           onPressed: (){
+                            /// save the string to otherValue[]
                             otherValue[key] = formOtherController[key].toString();
                             setState(() {
                               if (radioValue[key] != choice)
@@ -69,6 +73,7 @@ class _SlitLampState extends State<SlitLamp>{
                         FlatButton(
                           child: Text(Strings.cancel),
                           onPressed: () {
+                            /// clear the controller if the user say cancel
                             formOtherController[key].clear();
                             Navigator.of(context).pop();
                             },
@@ -78,8 +83,12 @@ class _SlitLampState extends State<SlitLamp>{
                 );
               }
               else {
+                /// because the choice cannot be choosing other, or just cancel the choice, so clear controller
                 formOtherController[key].clear();
+                /// also clear the value stored
                 otherValue[key] = "";
+
+                /// rebuild the whole widget by changing radio value, to make a certain cell become blur or not blue
                 setState(() {
                   if (radioValue[key] != choice)
                     radioValue[key] = choice;
@@ -94,19 +103,16 @@ class _SlitLampState extends State<SlitLamp>{
                 textAlign: TextAlign.center,
               ),
               decoration: BoxDecoration(
+                /// defines the color of the box, by following the radio value
                 color: (radioValue[key] == choice)?
                   Theme.of(context).hintColor: Theme.of(context).disabledColor,
-                /*
-                border: Border(
-                    left: BorderSide(width: 1.0, color: Theme.of(context).indicatorColor),
-                  right: BorderSide(width: 1.0, color: Theme.of(context).indicatorColor)
-                )
-                */
               ),
             )
         ))
       );
     }
+
+    /// after adding all buttons within the string list, return a row
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: buttons,
@@ -119,6 +125,7 @@ class _SlitLampState extends State<SlitLamp>{
   /// - choice (List of String): the text showing on the buttons
   Container leftRightChoiceButtonList(String test, List<String> choices){
     return Container(
+      /// defining the box, with filled color and round edges
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
         color: Theme.of(context).disabledColor,
@@ -127,6 +134,7 @@ class _SlitLampState extends State<SlitLamp>{
         width: double.infinity,
         child:Column(
           children: <Widget>[
+            /// row of right eye, having a "右" and a row of radio buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -138,9 +146,11 @@ class _SlitLampState extends State<SlitLamp>{
                 ),
                 Expanded(child: radioButtons(choices, test + Strings.right)),
 
+                /// just padding
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
               ],
             ),
+            /// row of left eye, basically same with right eye
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -152,6 +162,7 @@ class _SlitLampState extends State<SlitLamp>{
                 ),
                 Expanded(child: radioButtons(choices, test + Strings.left)),
 
+                /// just padding
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
               ],
             ),
@@ -170,6 +181,7 @@ class _SlitLampState extends State<SlitLamp>{
     List<Widget> columnList = [];
     List<String> choiceList = [];
 
+    /// dividing the string list with 3 string one row, and send to radioButtons() to build buttons for it
     int counter = 0;
     for(String choice in choices){
       choiceList.add(choice);
@@ -180,6 +192,7 @@ class _SlitLampState extends State<SlitLamp>{
       ++ counter;
     }
 
+    /// return a container storing all rows built above
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
@@ -206,7 +219,7 @@ class _SlitLampState extends State<SlitLamp>{
           padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0), //defines margin
           children: <Widget>[
 
-            /// the top buttons
+            /// the top buttons, logout and mainpage
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -221,7 +234,7 @@ class _SlitLampState extends State<SlitLamp>{
                   // log out
                   child: Text(Strings.logoutButton),
                   onPressed: (){
-                    // TODO: developer
+                    /// pop to login page... as login is the first page, so pop until cannot pop is ok
                     while(Navigator.canPop(context)){
                       Navigator.pop(context);
                     };
@@ -230,6 +243,7 @@ class _SlitLampState extends State<SlitLamp>{
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
             /// columns writing patient number and name
             Container(
               decoration: BoxDecoration(
@@ -239,8 +253,10 @@ class _SlitLampState extends State<SlitLamp>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  /// patient name
                   Row(
                     children: <Widget>[
+                      /// just padding
                       SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * COLUMN_RATIO,
@@ -248,8 +264,10 @@ class _SlitLampState extends State<SlitLamp>{
                       ),
                     ]
                   ),
+                  /// file number
                   Row(
                       children: <Widget>[
+                        /// just padding
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
@@ -260,6 +278,8 @@ class _SlitLampState extends State<SlitLamp>{
                 ],
               ),
             ),
+
+            /// print title
             Center(child: Text( Strings.slitLamp, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
@@ -277,6 +297,7 @@ class _SlitLampState extends State<SlitLamp>{
             leftRightChoiceButtonList(Strings.slit_lens,
                 [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_absent, Strings.choice_others]),
 
+            /// padding with printing test title
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
             Center(child: Text( Strings.hirschberg, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
@@ -299,7 +320,7 @@ class _SlitLampState extends State<SlitLamp>{
             Center(
               child: RaisedButton(
                   onPressed: (){
-                    // TODO: pop out from the page with save
+                    // TODO:  change!!!!
                     _saveData();
                     Navigator.pop(context);
                   },
@@ -321,7 +342,6 @@ class _SlitLampState extends State<SlitLamp>{
           FlatButton(
             child: Text(Strings.confirm),
             onPressed: (){
-              _saveData();
               Navigator.of(context).pop(true);
             },
           ),

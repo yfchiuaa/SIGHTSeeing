@@ -3,6 +3,7 @@ import 'HomePage.dart';
 import 'testPages/SlitLamp.dart';
 import 'testPages/VisionOptometry.dart';
 import 'testPages/Consultation.dart';
+import 'UserSearch.dart';
 import 'string.dart';
 
 void main() => runApp(MyApp());
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         backgroundColor: const Color(0xFFdaecf7),
         indicatorColor: Colors.black87,
         hintColor: Colors.indigoAccent,
-        disabledColor: Colors.white
+        disabledColor: Colors.white,
+        canvasColor: const Color(0xFFc4e4f4),
       ),
 
       home: LoginPage(title: 'Flutter Demo Home Page'),
@@ -85,8 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) =>
                           // SlitLamp(patientName: "name", fileNumber: "number",)));
-                          // VisionOptometry(patientName: "name", fileNumber: "number", isVision: false)));
-                             Consultation(patientName: "name", fileNumber: "number",)));
+                           VisionOptometry(patientName: "name", fileNumber: "number", isVision: false)));
+                          // Consultation(patientName: "name", fileNumber: "number",)));
+                          // UserSearch(test: "Slit")));
                         }
                     ),
                   ],

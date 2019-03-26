@@ -11,6 +11,18 @@ class UserSearch extends StatefulWidget{
 }
 
 class _UserSearchState extends State<UserSearch>{
+  static const double BOX_BORDER_RADIUS = 15.0;
+  static const double PADDING_RATIO = 0.02;
+  static const double HEADING_FONTSIZE = 40.0;
+  TextEditingController patientNameController;
+  TextEditingController fileNumberController;
+
+  @override
+  void initState(){
+    super.initState();
+    patientNameController = new TextEditingController();
+    fileNumberController = new TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +31,7 @@ class _UserSearchState extends State<UserSearch>{
         backgroundColor: Theme.of(context).backgroundColor,
 
         body: ListView(
+          /// set the margin of the area
           padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0),
 
           children: <Widget>[
@@ -46,16 +59,82 @@ class _UserSearchState extends State<UserSearch>{
             ),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            /// confirm button
-            Center(
-              child: RaisedButton(
-                onPressed: (){
-                  // TODO: edit the button option
-                  Navigator.pop(context);
-                },
-                child: Text(Strings.confirm),
+            /// Top row: user search text with icon
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.search),
+                Text(Strings.searchUsers, style: TextStyle(fontSize: HEADING_FONTSIZE),),
+              ],
+            ),
+
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            /// container with text field
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.4,
+              color: Theme.of(context).canvasColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  /// top text field
+                  Container(
+                    padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
+                    width: MediaQuery.of(context).size.width *2 / 3,
+                    /// set the area of white
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    /// define text field
+                    child: TextField(
+                      controller: patientNameController,
+                      /// decorate text field, cancel the bottom border
+                      decoration: InputDecoration(
+                        hintText: Strings.patientName,
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                        ),
+                        border: InputBorder.none
+                      ),
+                    ),
+                  ),
+                  /// basically the same with container above
+                  Container(
+                    padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
+                    width: MediaQuery.of(context).size.width *2 / 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    child: TextField(
+                      controller: fileNumberController,
+                      decoration: InputDecoration(
+                          hintText: Strings.patientName,
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          border: InputBorder.none
+                      ),
+                    ),
+                  ),
+
+                  /// confirm button
+                  Center(
+                    child: RaisedButton(
+                      onPressed: (){
+                        // TODO: edit the button option, navigate different pages according to widget.test
+                      },
+                      child: Text(Strings.confirm),
+                    ),
+                  ),
+                ],
               ),
             ),
+
+
           ],
         ),
       );
