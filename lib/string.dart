@@ -74,6 +74,7 @@ class Strings{
   static String con_strabismus = '共同性斜视';
   static String con_trichiasis = '倒睫';
   static String con_conjunctivitis = '结膜炎';
+  static String con_handle = '处理';
   static String con_typehere = '在这里输入';
   static String con_furthercheckingup = '检查情况';
   static String con_furtherreview = '疑有异常需复诊';

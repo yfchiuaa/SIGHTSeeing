@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'testPages/SlitLamp.dart';
 import 'HomePage.dart';
+import 'testPages/SlitLamp.dart';
 import 'testPages/VisionOptometry.dart';
+import 'testPages/Consultation.dart';
 import 'string.dart';
 
 void main() => runApp(MyApp());
@@ -83,8 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed:(){
                           Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) =>
-                             //   SlitLamp(patientName: "name", fileNumber: "number",)));
-                              VisionOptometry(patientName: "name", fileNumber: "number", isVision: false)));
+                          // SlitLamp(patientName: "name", fileNumber: "number",)));
+                          // VisionOptometry(patientName: "name", fileNumber: "number", isVision: false)));
+                             Consultation(patientName: "name", fileNumber: "number",)));
                         }
                     ),
                   ],

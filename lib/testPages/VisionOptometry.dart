@@ -17,6 +17,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
   static const double BOX_BORDER_RADIUS = 15.0;
   static const double COLUMN_RATIO = 0.04;
   static const double PADDING_RATIO = 0.02;
+  static const double HEADING_FONTSIZE = 40.0;
   List<String> textData;
   Map<String, TextEditingController> formFieldControllers;
 
@@ -156,11 +157,11 @@ class _VisionOptometryState extends State<VisionOptometry>{
             ),
             Center(child: Text(
               widget.isVision ? Strings.visionTest : Strings.optometry,
-              style: TextStyle(fontSize: 40),
+              style: TextStyle(fontSize: HEADING_FONTSIZE),
             ),),
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            // TODO: define page body here
+            /// page body here
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
@@ -176,7 +177,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
             Center(
               child: RaisedButton(
                 onPressed: (){
-                  // TODO: pop out from the page with save
+                  // TODO: reuse as  profile checking, edit case to load saveData()
                   _saveData();
                   Navigator.pop(context);
                 },
