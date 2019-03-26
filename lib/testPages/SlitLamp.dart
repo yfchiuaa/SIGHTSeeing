@@ -161,6 +161,11 @@ class _SlitLampState extends State<SlitLamp>{
     );
   }
 
+  /// Return a column with rows of radio buttons
+  /// each row contains 3 radio buttons
+  /// @param:
+  /// - test (String): the name of the testing things
+  /// - choice (List of String): the text showing on the buttons
   Container threeChoiceRowList(String test, List<String> choices){
     List<Widget> columnList = [];
     List<String> choiceList = [];
