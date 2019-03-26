@@ -22,8 +22,8 @@ class Strings{
   static String profileID= '档案编号';
   static String searchButton = '搜寻';
 
-  static String patientNameTyping = '姓名:';
-  static String profileIDTyping= '档案编号:';
+  static String patientNameTyping = '姓名: ';
+  static String profileIDTyping= '档案编号: ';
   static String right = '右';
   static String left = '左';
 
@@ -42,6 +42,9 @@ class Strings{
   static String slit_conjunctiva = '结膜';
   static String slit_cornea = '角膜';
   static String slit_lens = '晶状体';
+  static String slit_Hirschbergtest = '角膜映光检查';
+  static String slit_exchange = '交替遮盖检查';
+  static String slit_eyeballshivering= '眼球震颤';
 
   static String choice_normal = '正常';
   static String choice_upperLidDrooping = '上睑下垂';
@@ -49,5 +52,33 @@ class Strings{
   static String choice_bloodFilled = '充血';
   static String choice_cloudy = '混浊';
   static String choice_absent = '缺如';
+
+  static String choice_lookoutward = '偏斜(外)';
+  static String choice_lookinward = '偏斜(內)';
+  static String choice_lookupward = '偏斜(上)';
+  static String choice_notabletostare = '不能固视';
+  static String choice_notmoving = '不动';
+  static String choice_outsidetomiddle = '外->中';
+  static String choice_insidetomiddle = '內->中';
+  static String choice_uppertomiddle = '上->中';
+  static String choice_inneruppertomiddle = '內上->中';
+  static String choice_outeruppertomiddle = '外上->中';
+  static String choice_nothing = '无';
+  static String choice_shown = '显性';
+  static String choice_notshown = '隐性';
+  static String choice_both = '显性+隐性';
+
+  static String consultation = '诊断';
+  static String con_normaleyesight = '正视眼';
+  static String con_abonormaldiopter = '屈光不正';
+  static String con_strabismus = '共同性斜视';
+  static String con_trichiasis = '倒睫';
+  static String con_conjunctivitis = '结膜炎';
+  static String con_typehere = '在这里输入';
+  static String con_furthercheckingup = '检查情况';
+  static String con_furtherreview = '疑有异常需复诊';
+  static String con_furtheroptomery = '需进一步验光';
+  static String con_previouspage = '上一页';
+  static String con_nextpatient = '下一个';
 }
 

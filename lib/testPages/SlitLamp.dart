@@ -3,9 +3,11 @@ import 'package:myapp/string.dart';
 import 'dart:async';
 
 class SlitLamp extends StatefulWidget{
+  final String patientName;
+  final String fileNumber;
 
   /// constructor, take the name and file number
-  SlitLamp({Key key}) : super(key: key);
+  SlitLamp({Key key, @required this.patientName, @required this.fileNumber}) : super(key: key);
 
   @override
   _SlitLampState createState() => _SlitLampState();
@@ -14,6 +16,9 @@ class SlitLamp extends StatefulWidget{
 class _SlitLampState extends State<SlitLamp>{
   static const double BOX_BORDER_RADIUS = 15.0;
   static const double COLUMN_RATIO = 0.04;
+  static const double HEADING_FONTSIZE = 40;
+  static const double SUBTITLE_FONTSIZE = 25;
+  static const double PADDING_RATIO = 0.02;
   Map<String, String> radioValue;
   Map<String, TextEditingController> formOtherController;
   Map<String, String> otherValue;
@@ -116,7 +121,7 @@ class _SlitLampState extends State<SlitLamp>{
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
-        color: Colors.white,
+        color: Theme.of(context).disabledColor,
       ),
       child: SizedBox(
         width: double.infinity,
@@ -156,6 +161,34 @@ class _SlitLampState extends State<SlitLamp>{
     );
   }
 
+  Container threeChoiceRowList(String test, List<String> choices){
+    List<Widget> columnList = [];
+    List<String> choiceList = [];
+
+    int counter = 0;
+    for(String choice in choices){
+      choiceList.add(choice);
+      if(counter % 3 == 2 || counter == choices.length - 1){
+        columnList.add(radioButtons(choiceList, test));
+        choiceList = [];
+      }
+      ++ counter;
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+        color: Theme.of(context).disabledColor,
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          children: columnList,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     /// Main body of the page
@@ -165,7 +198,7 @@ class _SlitLampState extends State<SlitLamp>{
         backgroundColor: Theme.of(context).backgroundColor,
         resizeToAvoidBottomPadding: false,
         body: ListView(
-          padding: EdgeInsets.all(20), // defines margin
+          padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0), //defines margin
           children: <Widget>[
 
             /// the top buttons
@@ -184,16 +217,19 @@ class _SlitLampState extends State<SlitLamp>{
                   child: Text(Strings.logoutButton),
                   onPressed: (){
                     // TODO: developer
+                    while(Navigator.canPop(context)){
+                      Navigator.pop(context);
+                    };
                   },
                 ),
               ],
             ),
-
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
             /// columns writing patient number and name
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
-                color: Colors.white,
+                color: Theme.of(context).disabledColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,7 +239,7 @@ class _SlitLampState extends State<SlitLamp>{
                       SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                        child: Text(Strings.patientNameTyping, textAlign: TextAlign.left,), // name with parameter
+                        child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
                       ),
                     ]
                   ),
@@ -212,37 +248,55 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Text(Strings.profileIDTyping, textAlign: TextAlign.left,), // name with parameter
+                          child: Text(Strings.profileIDTyping + widget.fileNumber, textAlign: TextAlign.left,), // name with parameter
                         ),
                       ]
                   ),
                 ],
               ),
             ),
-            Center(child: Text( Strings.slitLamp, style: TextStyle(fontSize: 40),),),
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+            Center(child: Text( Strings.slitLamp, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// list of form with many buttons
-            Center(child: Text( Strings.slit_eyelid, style: TextStyle(fontSize: 30),),),
+            Center(child: Text( Strings.slit_eyelid, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
             leftRightChoiceButtonList(Strings.slit_eyelid,
                 [Strings.choice_normal, Strings.choice_upperLidDrooping, Strings.choice_others]),
-            Center(child: Text( Strings.slit_conjunctiva, style: TextStyle(fontSize: 30),),),
+            Center(child: Text( Strings.slit_conjunctiva, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
             leftRightChoiceButtonList(Strings.slit_conjunctiva,
                 [Strings.choice_normal, Strings.choice_bloodFilled, Strings.choice_others]),
-            Center(child: Text( Strings.slit_cornea, style: TextStyle(fontSize: 30),),),
+            Center(child: Text( Strings.slit_cornea, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
             leftRightChoiceButtonList(Strings.slit_cornea,
                 [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_others]),
-            Center(child: Text( Strings.slit_lens, style: TextStyle(fontSize: 30),),),
+            Center(child: Text( Strings.slit_lens, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
             leftRightChoiceButtonList(Strings.slit_lens,
                 [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_absent, Strings.choice_others]),
 
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+            Center(child: Text( Strings.hirschberg, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            /// list of form with hirschberg
+            Center(child: Text( Strings.slit_Hirschbergtest, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
+            leftRightChoiceButtonList(Strings.slit_Hirschbergtest,
+                [Strings.choice_normal, Strings.choice_lookoutward,
+                Strings.choice_lookinward, Strings.choice_lookupward, Strings.choice_notabletostare]),
+            Center(child: Text( Strings.slit_exchange, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
+            threeChoiceRowList(Strings.slit_exchange,
+                [Strings.choice_notmoving, Strings.choice_outsidetomiddle, Strings.choice_insidetomiddle,
+                Strings.choice_uppertomiddle, Strings.choice_inneruppertomiddle, Strings.choice_outeruppertomiddle]),
+            Center(child: Text( Strings.slit_eyeballshivering, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
+            threeChoiceRowList(Strings.slit_eyeballshivering,
+              [Strings.choice_nothing, Strings.choice_shown, Strings.choice_notshown, Strings.choice_both]),
+
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
             /// confirm button
             Center(
               child: RaisedButton(
                   onPressed: (){
                     // TODO: pop out from the page with save
                     _saveData();
+                    Navigator.pop(context);
                   },
                 child: Text(Strings.confirm),
               ),

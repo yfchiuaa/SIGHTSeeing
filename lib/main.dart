@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'testPages/SlitLamp.dart';
 import 'HomePage.dart';
+import 'testPages/VisionOptometry.dart';
 import 'string.dart';
 
 void main() => runApp(MyApp());
@@ -21,12 +22,6 @@ class MyApp extends StatelessWidget {
 
       home: LoginPage(title: 'Flutter Demo Home Page'),
 
-      // TODO: developers set all page routes here
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginPage(),
-        // 'testHome' : (BuildContext context) => ,
-        '/slitLamp': (BuildContext context) => SlitLamp(),
-      },
     );
   }
 }
@@ -68,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: Strings.loginname,
                       ),
                       keyboardType: TextInputType.number,
+                      style: TextStyle(color: Theme.of(context).indicatorColor),
                     ),
                     TextFormField(
                       decoration:InputDecoration(
@@ -75,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       keyboardType: TextInputType.text,
                       obscureText: true,
+                      style: TextStyle(color: Theme.of(context).indicatorColor),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top:25.0),
@@ -82,9 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                     MaterialButton(
                         color: Colors.grey,
                         textColor: Colors.black,
-                        child: Text(Strings.loginbutton),
+                        child: Text(Strings.loginbutton,),
                         onPressed:(){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SlitLamp()));
+                          Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) =>
+                             //   SlitLamp(patientName: "name", fileNumber: "number",)));
+                              VisionOptometry(patientName: "name", fileNumber: "number", isVision: false)));
                         }
                     ),
                   ],
