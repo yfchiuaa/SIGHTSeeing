@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'testPages/SlitLamp.dart';
+import 'HomePage.dart';
+import 'string.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,24 +13,26 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         // TODO: set the main theme here, set the colors
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: const Color(0xFFdaecf7),
+        indicatorColor: Colors.black87,
+        hintColor: Colors.indigoAccent,
+        disabledColor: Colors.white
       ),
+
       home: LoginPage(title: 'Flutter Demo Home Page'),
+
+      // TODO: developers set all page routes here
+      routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginPage(),
+        // 'testHome' : (BuildContext context) => ,
+        '/slitLamp': (BuildContext context) => SlitLamp(),
+      },
     );
   }
 }
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -41,11 +45,54 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // TODO: build your login page here, change the body page
     return Scaffold(
-      body: Center(
-        child: RaisedButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>SlitLamp()));
-        }),
-      ),
+      // below build by suki
+        resizeToAvoidBottomPadding: false, // add this line because pixel overflow may occur while typing
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Container(
+          child: Form(
+            child: Theme(
+              data:ThemeData(
+                  brightness:Brightness.dark, //primarySwatch: Colors.black87,
+                  inputDecorationTheme: InputDecorationTheme(
+                      labelStyle: TextStyle(
+                          color: Theme.of(context).indicatorColor, fontSize: 20.0
+                      )
+                  )),
+              child: Container(
+                padding: const EdgeInsets.only(left: 40.0, right:40.0, top:220.0, bottom:40.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: Strings.loginname,
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    TextFormField(
+                      decoration:InputDecoration(
+                        labelText: Strings.loginpassword,
+                      ),
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:25.0),
+                    ),
+                    MaterialButton(
+                        color: Colors.grey,
+                        textColor: Colors.black,
+                        child: Text(Strings.loginbutton),
+                        onPressed:(){
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SlitLamp()));
+                        }
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
     );
   }
 }

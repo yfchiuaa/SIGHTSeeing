@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
+import 'dart:async';
 
 class SlitLamp extends StatefulWidget{
 
@@ -14,11 +15,15 @@ class _SlitLampState extends State<SlitLamp>{
   static const double BOX_BORDER_RADIUS = 15.0;
   static const double COLUMN_RATIO = 0.04;
   Map<String, String> radioValue;
+  Map<String, TextEditingController> formOtherController;
+  Map<String, String> otherValue;
 
   @override
   void initState(){
     super.initState();
     radioValue = Map();
+    formOtherController = Map();
+    otherValue = Map();
   }
 
   /// Return a row of radio button
@@ -29,25 +34,77 @@ class _SlitLampState extends State<SlitLamp>{
     List<Widget> buttons = [];
 
     for(String choice in choices){
+      if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
+
       buttons.add(
-        FittedBox( child: FlatButton(
-            color: (radioValue[key] == choice)? Colors.indigoAccent: Colors.white,
-            onPressed: (){
-              setState(() {
-                if(radioValue[key] != choice)
-                  radioValue[key] = choice;
-                else radioValue[key] = "";
-              });
-              },
-            child: Text(choice, style: TextStyle(fontSize: 18),)
+        Expanded(
+            child: GestureDetector(
+            onTap: () {
+              if (choice == Strings.choice_others && radioValue[key] != choice) {
+                showDialog(context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(key + Strings.slit_AlertQuestion),
+                      content: TextField(
+                        controller: formOtherController[key],
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(Strings.confirm),
+                          onPressed: (){
+                            otherValue[key] = formOtherController[key].toString();
+                            setState(() {
+                              if (radioValue[key] != choice)
+                                radioValue[key] = choice;
+                              else
+                                radioValue[key] = "";
+                            });
+                            Navigator.of(context).pop();
+                            },
+                        ),
+                        FlatButton(
+                          child: Text(Strings.cancel),
+                          onPressed: () {
+                            formOtherController[key].clear();
+                            Navigator.of(context).pop();
+                            },
+                        ),
+                      ],
+                    )
+                );
+              }
+              else {
+                formOtherController[key].clear();
+                otherValue[key] = "";
+                setState(() {
+                  if (radioValue[key] != choice)
+                    radioValue[key] = choice;
+                  else
+                    radioValue[key] = "";
+                });
+              }
+            },
+            child: Container(
+              child: Text(choice,
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+              decoration: BoxDecoration(
+                color: (radioValue[key] == choice)?
+                  Theme.of(context).hintColor: Theme.of(context).disabledColor,
+                /*
+                border: Border(
+                    left: BorderSide(width: 1.0, color: Theme.of(context).indicatorColor),
+                  right: BorderSide(width: 1.0, color: Theme.of(context).indicatorColor)
+                )
+                */
+              ),
+            )
         ))
       );
     }
-    return FittedBox(
-        child:Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: buttons,
-        )
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: buttons,
     );
   }
 
@@ -61,36 +118,41 @@ class _SlitLampState extends State<SlitLamp>{
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
         color: Colors.white,
       ),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                width: MediaQuery.of(context).size.width * 0.1,
-                child: Text(Strings.right, textAlign: TextAlign.center,),
-              ),
-              Flexible(child: radioButtons(choices, test + Strings.right)),
+      child: SizedBox(
+        width: double.infinity,
+        child:Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  child: Text(Strings.right, textAlign: TextAlign.center,),
+                ),
+                Expanded(child: radioButtons(choices, test + Strings.right)),
 
-              SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                width: MediaQuery.of(context).size.width * 0.1,
-                child: Text(Strings.left, textAlign: TextAlign.center,),
-              ),
-              Flexible(child: radioButtons(choices, test + Strings.left)),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  child: Text(Strings.left, textAlign: TextAlign.center,),
+                ),
+                Expanded(child: radioButtons(choices, test + Strings.left)),
 
-              SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
-            ],
-          ),
-        ],
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
+              ],
+            ),
+          ],
       ),
+      )
     );
   }
 
@@ -180,6 +242,7 @@ class _SlitLampState extends State<SlitLamp>{
               child: RaisedButton(
                   onPressed: (){
                     // TODO: pop out from the page with save
+                    _saveData();
                   },
                 child: Text(Strings.confirm),
               ),

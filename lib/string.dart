@@ -7,6 +7,7 @@ class Strings{
 
   static String leavingAlertQuestion = '数据尚未储存 是否确定离开';
   static String logoutAlertQuestion = '是否确定注销';
+  static String slit_AlertQuestion = '注意事项:';
   static String cancel = '取消';
   static String confirm = '确认';
 
