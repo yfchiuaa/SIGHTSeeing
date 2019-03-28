@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'string.dart';
+import 'PatientData.dart';
+import 'testPages/SlitLamp.dart';
+import 'testPages/VisionOptometry.dart';
 
 class UserSearch extends StatefulWidget{
   final String test;
@@ -112,7 +115,7 @@ class _UserSearchState extends State<UserSearch>{
                     child: TextField(
                       controller: fileNumberController,
                       decoration: InputDecoration(
-                          hintText: Strings.patientName,
+                          hintText: Strings.profileID,
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
@@ -126,6 +129,28 @@ class _UserSearchState extends State<UserSearch>{
                     child: RaisedButton(
                       onPressed: (){
                         // TODO: edit the button option, navigate different pages according to widget.test
+                        if(widget.test == Strings.visionTest)
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) =>
+                                VisionOptometry(patientName: patientNameController.text,
+                                    fileNumber: fileNumberController.text,
+                                    isVision: true)));
+                        if(widget.test == Strings.optometry)
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (BuildContext context) =>
+                                  VisionOptometry(patientName: patientNameController.text,
+                                      fileNumber: fileNumberController.text,
+                                      isVision: false)));
+                        if(widget.test == Strings.slitLamp)
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (BuildContext context) =>
+                                  SlitLamp(patientName: patientNameController.text,
+                                      fileNumber: fileNumberController.text,)));
+                        if(widget.test == Strings.reviewingProfile)
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (BuildContext context) =>
+                                  PatientData(patientName: patientNameController.text,
+                                      fileNumber: fileNumberController.text,)));
                       },
                       child: Text(Strings.confirm),
                     ),

@@ -269,9 +269,8 @@ class _ConsultationState extends State<Consultation> {
             Center(
               child: RaisedButton(
                 onPressed: (){
-                  // TODO: pop out from the page with save
+                  // TODO: pop out from the page with save, please search popUntil to pop to the usersearch part
                   _saveData();
-                  Navigator.pop(context);
                 },
                 child: Text(Strings.confirm),
               ),
