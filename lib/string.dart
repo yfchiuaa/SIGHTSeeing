@@ -81,5 +81,11 @@ class Strings{
   static String con_furtheroptomery = '需进一步验光';
   static String con_previouspage = '上一页';
   static String con_nextpatient = '下一个';
+
+  // For patient data
+  static String studentName = '学生姓名';
+  static String studentNumber = '学生编号';
+  static String studentSex = '学生性别';
+  static String studentBirth = '学生年份';
 }
 
