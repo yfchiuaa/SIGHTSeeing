@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      /// SET UP THEME DATA
       theme: ThemeData(
-        // TODO: set the main theme here, set the colors
         backgroundColor: const Color(0xFFdaecf7),
         indicatorColor: Colors.black87,
         hintColor: Colors.indigoAccent,
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
 
+  // TODO: What is this title used for 
   final String title;
 
   @override
@@ -35,36 +36,60 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  /// INITIATE STATE for login username and password
+  TextEditingController userNameController;
+  TextEditingController passwordController;
+  @override
+  void initState(){
+    super.initState();
+    userNameController = new TextEditingController();
+    passwordController = new TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: build your login page here, change the body page
     return Scaffold(
-      // below build by suki
-        resizeToAvoidBottomPadding: false, // add this line because pixel overflow may occur while typing
+        // Solving the pixel overflow when typing
+        resizeToAvoidBottomPadding: false, 
+        // Setting backgraound color of whole page
         backgroundColor: Theme.of(context).backgroundColor,
+
         body: Container(
           child: Form(
             child: Theme(
+              // TODO: What is this theme data set for
               data:ThemeData(
                   brightness:Brightness.dark, //primarySwatch: Colors.black87,
                   inputDecorationTheme: InputDecorationTheme(
                       labelStyle: TextStyle(
                           color: Theme.of(context).indicatorColor, fontSize: 20.0
                       )
-                  )),
+                  )), 
+              
+              /// MAIN CONTAINER FOR FORM
               child: Container(
                 padding: const EdgeInsets.only(left: 40.0, right:40.0, top:220.0, bottom:40.0),
+
+                //// MAIN structure 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+
+                    //// Textfield for USER NAME
                     TextFormField(
+                      // State the controller for userName
+                      controller: userNameController,
                       decoration: InputDecoration(
                         labelText: Strings.loginname,
                       ),
                       keyboardType: TextInputType.number,
                       style: TextStyle(color: Theme.of(context).indicatorColor),
                     ),
+
+                    //// Textfield for PASSWORD
                     TextFormField(
+                      // State the controller for password
+                      controller: passwordController,
                       decoration:InputDecoration(
                         labelText: Strings.loginpassword,
                       ),
@@ -72,14 +97,18 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                       style: TextStyle(color: Theme.of(context).indicatorColor),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.only(top:25.0),
                     ),
+
+                    //// LOGIN BUTTON 
                     MaterialButton(
                         color: Colors.grey,
                         textColor: Colors.black,
                         child: Text(Strings.loginbutton,),
                         onPressed:(){
+                          // For ‘登陸' button
                           Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
                         }
