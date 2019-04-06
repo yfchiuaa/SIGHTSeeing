@@ -19,17 +19,18 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color(0xFFc4e4f4),
       ),
 
-      home: LoginPage(title: 'Flutter Demo Home Page'),
+      home: LoginPage(),
 
+      routes: {
+        '/Login' : (context) => LoginPage(),
+        '/HomePage' : (context) => HomePage(),
+      },
     );
   }
 }
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
-
-  // TODO: What is this title used for 
-  final String title;
+  LoginPage({Key key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -64,7 +65,8 @@ class _LoginPageState extends State<LoginPage> {
                       labelStyle: TextStyle(
                           color: Theme.of(context).indicatorColor, fontSize: 20.0
                       )
-                  )), 
+                  )
+              ),
               
               /// MAIN CONTAINER FOR FORM
               child: Container(
@@ -111,6 +113,10 @@ class _LoginPageState extends State<LoginPage> {
                           // For ‘登陸' button
                           Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+
+                          // clear the contents inside text fields
+                          userNameController.clear();
+                          passwordController.clear();
                         }
                     ),
                   ],

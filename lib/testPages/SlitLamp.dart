@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
 import 'dart:async';
+import 'package:myapp/PatientData.dart';
 
 class SlitLamp extends StatefulWidget{
   final String patientName;
@@ -14,15 +15,27 @@ class SlitLamp extends StatefulWidget{
 }
 
 class _SlitLampState extends State<SlitLamp>{
+  /// constant variable for unique sizing in form fields
   static const double BOX_BORDER_RADIUS = 15.0;
   static const double COLUMN_RATIO = 0.04;
   static const double HEADING_FONTSIZE = 40;
   static const double SUBTITLE_FONTSIZE = 25;
   static const double PADDING_RATIO = 0.02;
+
+  // map storing the choice that user made in each multiple choice box
   Map<String, String> radioValue;
+
+  // map storing the text controller of '其他'
+  // e.g. formOtherController['眼臉左'] will return the text field controller inside the alert window
+  //       the alert window only shows up when '其他' is pressed
   Map<String, TextEditingController> formOtherController;
+
+  // map storing the value of '其他'
+  // e.g. in alert window, user typed '盲了' in text field and confirm
+  //       then, otherValue['眼臉左'] = '盲了'
   Map<String, String> otherValue;
 
+  // construct
   @override
   void initState(){
     super.initState();
@@ -36,30 +49,33 @@ class _SlitLampState extends State<SlitLamp>{
   /// - choices (List of String): the text showing on the buttons
   /// - key (String): to search in radioValues
   Widget radioButtons(List<String> choices, String key){
-    List<Widget> buttons = [];
+    List<Widget> buttons = []; // temp. store the widgets need to create inside the row
+    if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
 
     for(String choice in choices){
-      if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
-
-      /// add a gesture detector detects a tap action on the box with text
+      // add gesture detectors with loop
       buttons.add(
         Expanded(
+          // here we customize the button by gesture detector
             child: GestureDetector(
+
+            /// 1. onTap:  define the action that user tapping the rectangular box
             onTap: () {
-              /// if the choice is other, we have special
+              // if the choice is other and other is not turned blue yet
               if (choice == Strings.choice_others && radioValue[key] != choice) {
-                /// show dialog to collect what other information
-                showDialog(context: context,
-                    builder: (context) => AlertDialog(
+                // show an alert window here to collect information
+                showDialog(context: context, builder: (context) =>
+                    AlertDialog(
                       title: Text(key + Strings.slit_AlertQuestion),
                       content: TextField(
                         controller: formOtherController[key],
                       ),
                       actions: <Widget>[
+                        // confirm button
                         FlatButton(
                           child: Text(Strings.confirm),
                           onPressed: (){
-                            /// save the string to otherValue[]
+                            // save the string to otherValue[]
                             otherValue[key] = formOtherController[key].toString();
                             setState(() {
                               if (radioValue[key] != choice)
@@ -70,10 +86,11 @@ class _SlitLampState extends State<SlitLamp>{
                             Navigator.of(context).pop();
                             },
                         ),
+                        // cancel button
                         FlatButton(
                           child: Text(Strings.cancel),
                           onPressed: () {
-                            /// clear the controller if the user say cancel
+                            // clear the controller if the user say cancel
                             formOtherController[key].clear();
                             Navigator.of(context).pop();
                             },
@@ -83,12 +100,12 @@ class _SlitLampState extends State<SlitLamp>{
                 );
               }
               else {
-                /// because the choice cannot be choosing other, or just cancel the choice, so clear controller
+                // because the choice cannot be choosing other, or just cancel the choice, so clear controller
                 formOtherController[key].clear();
-                /// also clear the value stored
+                // also clear the value stored
                 otherValue[key] = "";
 
-                /// rebuild the whole widget by changing radio value, to make a certain cell become blur or not blue
+                // rebuild the whole widget by changing radio value, to make a certain cell become blur or not blue
                 setState(() {
                   if (radioValue[key] != choice)
                     radioValue[key] = choice;
@@ -97,13 +114,15 @@ class _SlitLampState extends State<SlitLamp>{
                 });
               }
             },
+
+            /// 2. Container, define the color and text inside the button box
             child: Container(
               child: Text(choice,
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
               decoration: BoxDecoration(
-                /// defines the color of the box, by following the radio value
+                // defines the color of the box, by following the radio value
                 color: (radioValue[key] == choice)?
                   Theme.of(context).hintColor: Theme.of(context).disabledColor,
               ),
@@ -112,7 +131,7 @@ class _SlitLampState extends State<SlitLamp>{
       );
     }
 
-    /// after adding all buttons within the string list, return a row
+    // after adding all buttons within the string list, return a row
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: buttons,
@@ -125,7 +144,7 @@ class _SlitLampState extends State<SlitLamp>{
   /// - choice (List of String): the text showing on the buttons
   Container leftRightChoiceButtonList(String test, List<String> choices){
     return Container(
-      /// defining the box, with filled color and round edges
+      // defining the box, with filled color and round edges
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
         color: Theme.of(context).disabledColor,
@@ -134,7 +153,7 @@ class _SlitLampState extends State<SlitLamp>{
         width: double.infinity,
         child:Column(
           children: <Widget>[
-            /// row of right eye, having a "右" and a row of radio buttons
+            /// 1. row of right eye, having a "右" and a row of radio buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -144,13 +163,13 @@ class _SlitLampState extends State<SlitLamp>{
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: Text(Strings.right, textAlign: TextAlign.center,),
                 ),
+                // buttons of a single row is called to construct here
                 Expanded(child: radioButtons(choices, test + Strings.right)),
-
-                /// just padding
+                // padding
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
               ],
             ),
-            /// row of left eye, basically same with right eye
+            /// 2. row of left eye, basically same with right eye
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -160,9 +179,9 @@ class _SlitLampState extends State<SlitLamp>{
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: Text(Strings.left, textAlign: TextAlign.center,),
                 ),
+                // buttons of a single row is called to construct here
                 Expanded(child: radioButtons(choices, test + Strings.left)),
-
-                /// just padding
+                // padding
                 SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
               ],
             ),
@@ -181,7 +200,7 @@ class _SlitLampState extends State<SlitLamp>{
     List<Widget> columnList = [];
     List<String> choiceList = [];
 
-    /// dividing the string list with 3 string one row, and send to radioButtons() to build buttons for it
+    // dividing the string list with 3 string one row, and send to radioButtons() to build buttons for it
     int counter = 0;
     for(String choice in choices){
       choiceList.add(choice);
@@ -192,7 +211,7 @@ class _SlitLampState extends State<SlitLamp>{
       ++ counter;
     }
 
-    /// return a container storing all rows built above
+    // return a container storing all rows built above
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
@@ -219,7 +238,7 @@ class _SlitLampState extends State<SlitLamp>{
           padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0), //defines margin
           children: <Widget>[
 
-            /// the top buttons, logout and mainpage
+            /// 1. TOP TWO BUTTONS
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -227,14 +246,13 @@ class _SlitLampState extends State<SlitLamp>{
                   // main page
                   child: Text(Strings.mainpageButton),
                   onPressed: (){
-                    // TODO: developer
+                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
                   },
                 ),
                 RaisedButton(
                   // log out
                   child: Text(Strings.logoutButton),
                   onPressed: (){
-                    /// pop to login page... as login is the first page, so pop until cannot pop is ok
                     while(Navigator.canPop(context)){
                       Navigator.pop(context);
                     };
@@ -242,32 +260,36 @@ class _SlitLampState extends State<SlitLamp>{
                 ),
               ],
             ),
+
+            // padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            /// columns writing patient number and name
+            /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
+            //  BOX DECORATION CONTAINER AS MAIN
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
                 color: Theme.of(context).disabledColor,
               ),
+              /// COULMN OF TWO ROWS
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  /// patient name
-                  Row(
-                    children: <Widget>[
-                      /// just padding
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                        child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
-                      ),
-                    ]
-                  ),
-                  /// file number
+                  /// ROW FRO PATIENT NAME
                   Row(
                       children: <Widget>[
-                        /// just padding
+                        /// USE SIZEDBOX AS CONTAINER
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+
+                          child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
+                        ),
+                      ]
+                  ),
+                  /// ROW FOR PAPER NUMBER
+                  Row(
+                      children: <Widget>[
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
@@ -279,50 +301,59 @@ class _SlitLampState extends State<SlitLamp>{
               ),
             ),
 
-            /// print title
+            // Sizedbox as padding
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            /// 3. TITLE OF SLITLAMP
             Center(child: Text( Strings.slitLamp, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
+
+            // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            /// list of form with many buttons
+            /// 4. BUTTON ROWS, TEST ITEMS WITH LEFT EYE AND RIGHT EYE
             Center(child: Text( Strings.slit_eyelid, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            leftRightChoiceButtonList(Strings.slit_eyelid,
-                [Strings.choice_normal, Strings.choice_upperLidDrooping, Strings.choice_others]),
+            leftRightChoiceButtonList(Strings.slit_eyelid, [Strings.choice_normal, Strings.choice_upperLidDrooping, Strings.choice_others]),
+
             Center(child: Text( Strings.slit_conjunctiva, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            leftRightChoiceButtonList(Strings.slit_conjunctiva,
-                [Strings.choice_normal, Strings.choice_bloodFilled, Strings.choice_others]),
+            leftRightChoiceButtonList(Strings.slit_conjunctiva, [Strings.choice_normal, Strings.choice_bloodFilled, Strings.choice_others]),
+
             Center(child: Text( Strings.slit_cornea, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            leftRightChoiceButtonList(Strings.slit_cornea,
-                [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_others]),
+            leftRightChoiceButtonList(Strings.slit_cornea, [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_others]),
+
             Center(child: Text( Strings.slit_lens, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            leftRightChoiceButtonList(Strings.slit_lens,
-                [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_absent, Strings.choice_others]),
+            leftRightChoiceButtonList(Strings.slit_lens, [Strings.choice_normal, Strings.choice_cloudy, Strings.choice_absent, Strings.choice_others]),
 
-            /// padding with printing test title
+            // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            /// 5. TITLE OF HIRSCHBERG
             Center(child: Text( Strings.hirschberg, style: TextStyle(fontSize: HEADING_FONTSIZE),),),
+
+            // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            /// list of form with hirschberg
+            /// 6. LIST OF TEST ITEMS IN HIRSCHBERG
             Center(child: Text( Strings.slit_Hirschbergtest, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            leftRightChoiceButtonList(Strings.slit_Hirschbergtest,
-                [Strings.choice_normal, Strings.choice_lookoutward,
-                Strings.choice_lookinward, Strings.choice_lookupward, Strings.choice_notabletostare]),
-            Center(child: Text( Strings.slit_exchange, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            threeChoiceRowList(Strings.slit_exchange,
-                [Strings.choice_notmoving, Strings.choice_outsidetomiddle, Strings.choice_insidetomiddle,
-                Strings.choice_uppertomiddle, Strings.choice_inneruppertomiddle, Strings.choice_outeruppertomiddle]),
-            Center(child: Text( Strings.slit_eyeballshivering, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
-            threeChoiceRowList(Strings.slit_eyeballshivering,
-              [Strings.choice_nothing, Strings.choice_shown, Strings.choice_notshown, Strings.choice_both]),
+            leftRightChoiceButtonList(Strings.slit_Hirschbergtest, [Strings.choice_normal, Strings.choice_lookoutward, Strings.choice_lookinward, Strings.choice_lookupward, Strings.choice_notabletostare]),
 
+            Center(child: Text( Strings.slit_exchange, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
+            threeChoiceRowList(Strings.slit_exchange, [Strings.choice_notmoving, Strings.choice_outsidetomiddle, Strings.choice_insidetomiddle, Strings.choice_uppertomiddle, Strings.choice_inneruppertomiddle, Strings.choice_outeruppertomiddle]),
+
+            Center(child: Text( Strings.slit_eyeballshivering, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),), threeChoiceRowList(Strings.slit_eyeballshivering, [Strings.choice_nothing, Strings.choice_shown, Strings.choice_notshown, Strings.choice_both]),
+
+            // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
-            /// confirm button
+
+            /// 7. CONFIRM BUTTON
             Center(
               child: RaisedButton(
                   onPressed: (){
-                    // TODO:  change!!!!
+                    /// TODO: change the _szveData to connect API
                     _saveData();
-                    Navigator.pop(context);
+
+                    /// TODO: add finish alert here
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PatientData(patientName: widget.patientName, fileNumber: widget.fileNumber,)));
                   },
                 child: Text(Strings.confirm),
               ),
@@ -333,6 +364,8 @@ class _SlitLampState extends State<SlitLamp>{
     );
   }
 
+  /// function defines the action after back button is pressed
+  /// what is doing now: pop out a alert window with 2 buttons, save or back
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,

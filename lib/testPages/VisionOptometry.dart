@@ -283,7 +283,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
                   // main page
                   child: Text(Strings.mainpageButton),
                   onPressed: (){
-                    // TODO: developer
+                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
                   },
                 ),
                 RaisedButton(
@@ -302,7 +302,6 @@ class _VisionOptometryState extends State<VisionOptometry>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
-            
             //  BOX DECORATION CONTAINER AS MAIN
             Container(
               decoration: BoxDecoration(
@@ -385,7 +384,6 @@ class _VisionOptometryState extends State<VisionOptometry>{
                     );
                     // Call the API
                     VisionTest newData = await createVisionTest(body: newVisionTest.toMap());
-                    Navigator.pop(context);
                   }
                   else{
                     OptTest newOptTest = new OptTest
@@ -396,12 +394,17 @@ class _VisionOptometryState extends State<VisionOptometry>{
                       opto_astigmatismaxis: leftFieldControllers[Strings.opto_astigmatismaxis].text,
                     );
                     OptTest newData = await createOptTest(body: newOptTest.toMap());
-                    Navigator.pop(context);
                   }
+
+                  // TODO: add finish alert here
+                  Navigator.pop(context);
                 },
                 child: Text(Strings.confirm),
               ),
             ),
+
+            /// 6. PREVENT BUTTON CANNOT PRESS BY IOS DECIMAL KEYBOARD
+            SizedBox(height: MediaQuery.of(context).size.height / 2,)
           ],
         ),
       ),
@@ -419,7 +422,6 @@ class _VisionOptometryState extends State<VisionOptometry>{
           FlatButton(
             child: Text(Strings.confirm),
             onPressed: (){
-              _saveData();
               Navigator.of(context).pop(true);
             },
           ),
@@ -434,7 +436,4 @@ class _VisionOptometryState extends State<VisionOptometry>{
     )??false;
   }
 
-  void _saveData(){
-    // TODO: by developers, use http to link the API and send the datas
-  }
 }
