@@ -56,7 +56,7 @@ class _UserSearchState extends State<UserSearch>{
                   // main page
                   child: Text(Strings.mainpageButton),
                   onPressed: (){
-                    // TODO: developer
+                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
                   },
                 ),
                 RaisedButton(
@@ -180,6 +180,10 @@ class _UserSearchState extends State<UserSearch>{
                               MaterialPageRoute(builder: (BuildContext context) =>
                                   PatientData(patientName: patientNameController.text,
                                       fileNumber: fileNumberController.text,)));
+
+                        // clear the controller after pushing the page
+                        patientNameController.clear();
+                        fileNumberController.clear();
                       },
                       child: Text(Strings.confirm),
                     ),

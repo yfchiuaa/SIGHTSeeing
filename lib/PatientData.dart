@@ -369,7 +369,7 @@ class _PatientDataState extends State<PatientData>{
                   // main page
                   child: Text(Strings.mainpageButton),
                   onPressed: (){
-                    // TODO: developer
+                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
                   },
                 ),
                 RaisedButton(
