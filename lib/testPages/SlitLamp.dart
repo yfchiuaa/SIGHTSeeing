@@ -4,11 +4,11 @@ import 'dart:async';
 import 'package:myapp/PatientData.dart';
 
 class SlitLamp extends StatefulWidget{
-  final String patientName;
+  final String patientID;
   final String fileNumber;
 
   /// constructor, take the name and file number
-  SlitLamp({Key key, @required this.patientName, @required this.fileNumber}) : super(key: key);
+  SlitLamp({Key key, @required this.patientID, @required this.fileNumber}) : super(key: key);
 
   @override
   _SlitLampState createState() => _SlitLampState();
@@ -283,7 +283,7 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
 
-                          child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
+                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
                         ),
                       ]
                   ),
@@ -353,7 +353,7 @@ class _SlitLampState extends State<SlitLamp>{
 
                     /// TODO: add finish alert here
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PatientData(patientName: widget.patientName, fileNumber: widget.fileNumber,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PatientData(patientID: widget.patientID, fileNumber: widget.fileNumber,)));
                   },
                 child: Text(Strings.confirm),
               ),

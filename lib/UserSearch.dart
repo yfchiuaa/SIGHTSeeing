@@ -150,6 +150,7 @@ class _UserSearchState extends State<UserSearch>{
                   ),
 
                   /// 4.THE LAST PART FOR CONFIRM BUTTON AND NAVIGATE TO DIFFERENT STATIONS
+                  /// TODO: SHow dialog when we cannot find such patientID when we press the search button
                   Center(
                     child: RaisedButton(
                       onPressed: (){
@@ -157,33 +158,53 @@ class _UserSearchState extends State<UserSearch>{
                         if(widget.test == Strings.visionTest)
                           Navigator.push(context,
                             MaterialPageRoute(builder: (BuildContext context) =>
-                                VisionOptometry(patientName: patientNameController.text,
+                                VisionOptometry(patientID: patientNameController.text,
                                     fileNumber: fileNumberController.text,
-                                    isVision: true)));
+                                    isVision: true))).then( (value){
+                                      setState(() {
+                                        fileNumberController.clear();
+                                        patientNameController.clear();
+                                      });
+                                    });
                         // MaterialPageRoute to optometry by seting isVision to false
                         if(widget.test == Strings.optometry)
                           Navigator.push(context,
                               MaterialPageRoute(builder: (BuildContext context) =>
                                   /// CONSTRUCT by passing patient name and filenumber as parameter
-                                  VisionOptometry(patientName: patientNameController.text,
+                                  VisionOptometry(patientID: patientNameController.text,
                                       fileNumber: fileNumberController.text,
-                                      isVision: false)));
+                                      isVision: false))).then( (value){
+                                      setState(() {
+                                        fileNumberController.clear();
+                                        patientNameController.clear();
+                                      });
+                                    });
                         // M~ to slit lamp 
                         if(widget.test == Strings.slitLamp)
                           Navigator.push(context,
                               MaterialPageRoute(builder: (BuildContext context) =>
-                                  SlitLamp(patientName: patientNameController.text,
-                                      fileNumber: fileNumberController.text,)));
+                                  SlitLamp(patientID: patientNameController.text,
+                                      fileNumber: fileNumberController.text,))).then( (value){
+                                      setState(() {
+                                        fileNumberController.clear();
+                                        patientNameController.clear();
+                                      });
+                                    });
                         // M~ to patientData
                         if(widget.test == Strings.reviewingProfile)
                           Navigator.push(context,
                               MaterialPageRoute(builder: (BuildContext context) =>
-                                  PatientData(patientName: patientNameController.text,
-                                      fileNumber: fileNumberController.text,)));
+                                  PatientData(patientID: patientNameController.text,
+                                      fileNumber: fileNumberController.text,))).then( (value){
+                                      setState(() {
+                                        fileNumberController.clear();
+                                        patientNameController.clear();
+                                      });
+                                    });
 
                         // clear the controller after pushing the page
-                        patientNameController.clear();
-                        fileNumberController.clear();
+                        //patientNameController.clear();
+                        //fileNumberController.clear();
                       },
                       child: Text(Strings.confirm),
                     ),
