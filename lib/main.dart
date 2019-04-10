@@ -112,11 +112,16 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed:(){
                           // For ‘登陸' button
                           Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+                          MaterialPageRoute(builder: (BuildContext context) => HomePage())).then( (value){
+                            setState(() {
+                              userNameController.clear();
+                              passwordController.clear();
+                            });
+                          } );
 
                           // clear the contents inside text fields
-                          userNameController.clear();
-                          passwordController.clear();
+                          //userNameController.clear();
+                          //passwordController.clear();
                         }
                     ),
                   ],

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
 
 class Consultation extends StatefulWidget{
-  final String patientName;
+  final String patientID;
   final String fileNumber;
 
-  Consultation({Key key, @required this.patientName, @required this.fileNumber})
+  Consultation({Key key, @required this.patientID, @required this.fileNumber})
       : super(key: key);
 
   @override
@@ -234,7 +234,7 @@ class _ConsultationState extends State<Consultation> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
 
-                          child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
+                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
                         ),
                       ]
                   ),

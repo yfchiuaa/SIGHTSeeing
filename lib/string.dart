@@ -22,7 +22,7 @@ class Strings{
   static String profileID= '档案编号';
   static String searchButton = '搜寻';
 
-  static String patientNameTyping = '姓名: ';
+  static String patientIDTyping = '學生编号: ';
   static String profileIDTyping= '档案编号: ';
   static String right = '右';
   static String left = '左';

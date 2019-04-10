@@ -1,131 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
-
-/*
-  # Function that will take the body as a map and POST it to the server as json format
-  @parameter
-  body: the body of the content that is needed to be posted  as the format of map
-  @return
-  http.post
-*/
-Future<VisionTest> createVisionTest({Map body}) async {
-  String url = 'http://localhost:3030/check-record';
-
-  return http.post(url, body: body).then((http.Response response) {
-    final int statusCode = response.statusCode;
- 
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data");
-    }
-    return VisionTest.fromJson(json.decode(response.body));
-  });
-}
-
-class VisionTest{
-  final String patient_id;
-  final String left_vision_livingEyeSight;
-  final String right_vision_livingEyeSight;
-  final String left_vision_bareEyeSight;
-  final String right_vision_bareEyeSight;
-  final String left_vision_eyeGlasses;
-  final String right_vision_eyeGlasses;
-  final String left_vision_bestEyeSight;
-  final String right_vision_bestEyeSight;
-
-  VisionTest({this.left_vision_livingEyeSight, this.right_vision_livingEyeSight, this.left_vision_bareEyeSight, this.right_vision_bareEyeSight, this.left_vision_eyeGlasses, this.right_vision_eyeGlasses, this.left_vision_bestEyeSight, this.right_vision_bestEyeSight, this.patient_id});
-
-  factory VisionTest.fromJson(Map<String, dynamic> json){
-    return VisionTest(
-      patient_id: json['patient_id'],
-
-      left_vision_livingEyeSight: json['left_vision_livingEyeSight'],
-      left_vision_bareEyeSight: json['left_vision_bareEyeSight'],
-      left_vision_eyeGlasses: json['left_vision_eyeGlasses'],
-      left_vision_bestEyeSight: json['left_vision_bestEyeSight'],
-
-      right_vision_livingEyeSight: json['right_vision_livingEyeSight'],
-      right_vision_bareEyeSight: json['right_vision_bareEyeSight'],
-      right_vision_eyeGlasses: json['right_vision_eyeGlasses'],
-      right_vision_bestEyeSight: json['right_vision_bestEyeSight']
-    );
-  }
-
-  Map toMap(){
-    var map = new Map<String, dynamic>();
-    map['patient_id'] = patient_id;
-
-    map['left_vision_livingEyeSight'] = left_vision_livingEyeSight;
-    map['left_vision_bareEyeSight'] = left_vision_bareEyeSight;
-    map['left_vision_eyeGlasses'] = left_vision_eyeGlasses;
-    map['left_vision_bestEyeSight'] = left_vision_bestEyeSight;
-
-    map['right_vision_livingEyeSight'] = right_vision_livingEyeSight;
-    map['right_vision_bareEyeSight'] = right_vision_bareEyeSight;
-    map['right_vision_eyeGlasses'] = right_vision_eyeGlasses;
-    map['right_vision_bestEyeSight'] = right_vision_bestEyeSight;
-
-    return map;
-  }
-}
-
-Future<OptTest> createOptTest({Map body}) async {
-  String url = 'http://localhost:3030/check-record';
-
-  return http.post(url, body: body).then((http.Response response) {
-    final int statusCode = response.statusCode;
- 
-    if (statusCode < 200 || statusCode > 400 || json == null){
-      throw new Exception("Error while fetching data");
-    }
-    return OptTest.fromJson(json.decode(response.body));
-  });
-}
-
-class OptTest{
-  final String patient_id;
-  final String opto_diopter; 
-  final String opto_astigmatism;
-  final String opto_astigmatismaxis;
-
-  OptTest({this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis, this.patient_id});
-
-  factory OptTest.fromJson(Map<String, dynamic> json){
-    return OptTest(
-      patient_id: json['patient_id'],
-      opto_diopter: json['opto_diopter'],
-      opto_astigmatism: json['opto_astigmatism'],
-      opto_astigmatismaxis: json['opto_astigmatismaxis'],
-    );
-  }
-
-  Map toMap(){
-    var map = new Map<String, dynamic>();
-    map['patient_id'] = patient_id;
-    map['opto_diopter'] = opto_diopter;
-    map['opto_astigmatism'] = opto_astigmatism;
-    map['opto_astigmatismaxis'] = opto_astigmatismaxis;
-
-    return map;
-  }
-  
-
-}
+import 'package:myapp/model/VisionTest.dart';
+import 'package:myapp/model/OptTest.dart';
 
 class VisionOptometry extends StatefulWidget{
-  final String patientName;
+  final String patientID;
   final String fileNumber;
   final bool isVision;
 
   /*
     # Constructor for vision/optometry
     @parameter
-    patientName: the patient name passed from UserSearch
+    patientID: the patient name passed from UserSearch
     fileNumber: the file number passed from UserSearch
   */
-  VisionOptometry({Key key, @required this.patientName, @required this.fileNumber, @required this.isVision})
+  VisionOptometry({Key key, @required this.patientID, @required this.fileNumber, @required this.isVision})
       : super(key: key);
 
   @override
@@ -169,17 +58,6 @@ class _VisionOptometryState extends State<VisionOptometry>{
     testItem: take the test item from testList
   */
   Row textFieldRow(String testItem){
-    /*
-    // Set the format of the keys
-    // For example, 生活远视力左
-    String leftKey = testItem + Strings.left;
-    String rightKey = testItem + Strings.right;
-    
-
-    // Initiate the TextEditingController for values of the map
-    if(formFieldControllers[leftKey] == null) formFieldControllers[leftKey] = new TextEditingController();
-    if(formFieldControllers[rightKey] == null) formFieldControllers[rightKey] = new TextEditingController();
-    */
     if (leftFieldControllers[testItem] == null){
       leftFieldControllers[testItem] = new TextEditingController();
     }
@@ -320,7 +198,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
 
-                          child: Text(Strings.patientNameTyping + widget.patientName, textAlign: TextAlign.left,), // name with parameter
+                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
                         ),
                       ]
                   ),
@@ -372,7 +250,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
                   if (widget.isVision){
                     // Construct the visionTest object
                     VisionTest newVisionTest = new VisionTest(
-                      patient_id: widget.patientName,
+                      //patient_id: widget.patientID,
                       left_vision_livingEyeSight: leftFieldControllers[Strings.vision_livingEyeSight].text,
                       left_vision_bareEyeSight: leftFieldControllers[Strings.vision_bareEyeSight].text,
                       left_vision_eyeGlasses: leftFieldControllers[Strings.vision_eyeGlasses].text,
@@ -383,17 +261,20 @@ class _VisionOptometryState extends State<VisionOptometry>{
                       right_vision_bestEyeSight: rightFieldControllers[Strings.vision_bestEyeSight].text
                     );
                     // Call the API
-                    VisionTest newData = await createVisionTest(body: newVisionTest.toMap());
+                    VisionTest newData = await createVisionTest(widget.patientID, newVisionTest.toMap());
                   }
                   else{
                     OptTest newOptTest = new OptTest
                     (
-                      patient_id: widget.patientName,
-                      opto_diopter: leftFieldControllers[Strings.opto_diopter].text,
-                      opto_astigmatism: leftFieldControllers[Strings.opto_astigmatism].text,
-                      opto_astigmatismaxis: leftFieldControllers[Strings.opto_astigmatismaxis].text,
+                      //patient_id: widget.patientID,
+                      left_opto_diopter: leftFieldControllers[Strings.opto_diopter].text,
+                      left_opto_astigmatism: leftFieldControllers[Strings.opto_astigmatism].text,
+                      left_opto_astigmatismaxis: leftFieldControllers[Strings.opto_astigmatismaxis].text,
+                      right_opto_diopter: rightFieldControllers[Strings.opto_diopter].text,
+                      right_opto_astigmatism: rightFieldControllers[Strings.opto_astigmatism].text,
+                      right_opto_astigmatismaxis: rightFieldControllers[Strings.opto_astigmatismaxis].text,
                     );
-                    OptTest newData = await createOptTest(body: newOptTest.toMap());
+                    OptTest newData = await createOptTest(widget.patientID, newOptTest.toMap());
                   }
 
                   // TODO: add finish alert here
