@@ -23,10 +23,11 @@ class VisionOptometry extends StatefulWidget{
 
 class _VisionOptometryState extends State<VisionOptometry>{
   static const double BOX_BORDER_RADIUS = 15.0;
-  static const double COLUMN_RATIO = 0.04;
+  static const double COLUMN_RATIO = 0.08;
   static const double PADDING_RATIO = 0.02;
   // Size for '视力检查'
   static const double HEADING_FONTSIZE = 40.0;
+  static const double WORDSIZE = 20.0;
 
   // testList: all checking items in this test
   List<String> testList;
@@ -73,7 +74,10 @@ class _VisionOptometryState extends State<VisionOptometry>{
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-          child: Text( testItem, textAlign: TextAlign.center,),
+          child: Center(child: Text( testItem,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
         ),
 
         /// Textfield for right eye 
@@ -126,9 +130,15 @@ class _VisionOptometryState extends State<VisionOptometry>{
             height: MediaQuery.of(context).size.height * COLUMN_RATIO,
           ),
           // Right eye
-          Expanded(child: Text(Strings.right, textAlign: TextAlign.center,),),
+          Expanded(child: Text(Strings.right,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
           // Left eye
-          Expanded(child: Text(Strings.left, textAlign: TextAlign.center,),),
+          Expanded(child: Text(Strings.left,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
         ],
       )
     );
@@ -157,21 +167,31 @@ class _VisionOptometryState extends State<VisionOptometry>{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RaisedButton(
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
                   // main page
-                  child: Text(Strings.mainpageButton),
-                  onPressed: (){
-                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
-                  },
+                    child: Text(Strings.mainpageButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
+                    },
+                  ),
                 ),
-                RaisedButton(
-                  // log out
-                  child: Text(Strings.logoutButton),
-                  onPressed: (){
-                    while(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    };
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // log out
+                    child: Text(Strings.logoutButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      while(Navigator.canPop(context)){
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -188,7 +208,6 @@ class _VisionOptometryState extends State<VisionOptometry>{
               ),
               /// COULMN OF TWO ROWS
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   /// ROW FRO PATIENT NAME
                   Row(
@@ -197,8 +216,10 @@ class _VisionOptometryState extends State<VisionOptometry>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-
-                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.patientIDTyping + widget.patientID,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -208,7 +229,10 @@ class _VisionOptometryState extends State<VisionOptometry>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Text(Strings.profileIDTyping + widget.fileNumber, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.profileIDTyping + widget.fileNumber,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -244,7 +268,8 @@ class _VisionOptometryState extends State<VisionOptometry>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 5. CONFIRM BUTTON
-            Center(
+            Center(child: SizedBox(
+              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
               child: RaisedButton(
                 onPressed: () async {
                   if (widget.isVision){
@@ -280,9 +305,11 @@ class _VisionOptometryState extends State<VisionOptometry>{
                   // TODO: add finish alert here
                   Navigator.pop(context);
                 },
-                child: Text(Strings.confirm),
+                child: Text(Strings.confirm,
+                  style: TextStyle(fontSize: WORDSIZE)
+                ),
               ),
-            ),
+            ),),
 
             /// 6. PREVENT BUTTON CANNOT PRESS BY IOS DECIMAL KEYBOARD
             SizedBox(height: MediaQuery.of(context).size.height / 2,)

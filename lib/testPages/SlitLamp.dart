@@ -18,9 +18,10 @@ class SlitLamp extends StatefulWidget{
 class _SlitLampState extends State<SlitLamp>{
   /// constant variable for unique sizing in form fields
   static const double BOX_BORDER_RADIUS = 15.0;
-  static const double COLUMN_RATIO = 0.04;
+  static const double COLUMN_RATIO = 0.08;
   static const double HEADING_FONTSIZE = 40;
-  static const double SUBTITLE_FONTSIZE = 25;
+  static const double SUBTITLE_FONTSIZE = 30;
+  static const double WORDSIZE = 20;
   static const double PADDING_RATIO = 0.02;
 
   // map storing the choice that user made in each multiple choice box
@@ -130,10 +131,11 @@ class _SlitLampState extends State<SlitLamp>{
 
             /// 2. Container, define the color and text inside the button box
             child: Container(
-              child: Text(choice,
-                style: TextStyle(fontSize: 18),
+              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+              child: Center(child: Text(choice,
+                style: TextStyle(fontSize: WORDSIZE),
                 textAlign: TextAlign.center,
-              ),
+              ),),
               decoration: BoxDecoration(
                 // defines the color of the box, by following the radio value
                 color: (radioValue[key] == choice)?
@@ -176,7 +178,10 @@ class _SlitLampState extends State<SlitLamp>{
                 SizedBox(
                   height: MediaQuery.of(context).size.height * COLUMN_RATIO,
                   width: MediaQuery.of(context).size.width * 0.1,
-                  child: Text(Strings.right, textAlign: TextAlign.center,),
+                  child: Center(child: Text(Strings.right,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: WORDSIZE),
+                  ),),
                 ),
                 // buttons of a single row is called to construct here
                 Expanded(child: radioButtons(choices, test + Strings.right)),
@@ -192,7 +197,10 @@ class _SlitLampState extends State<SlitLamp>{
                 SizedBox(
                   height: MediaQuery.of(context).size.height * COLUMN_RATIO,
                   width: MediaQuery.of(context).size.width * 0.1,
-                  child: Text(Strings.left, textAlign: TextAlign.center,),
+                  child: Center(child: Text(Strings.left,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: WORDSIZE),
+                  ),),
                 ),
                 // buttons of a single row is called to construct here
                 Expanded(child: radioButtons(choices, test + Strings.left)),
@@ -252,31 +260,40 @@ class _SlitLampState extends State<SlitLamp>{
         body: ListView(
           padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0), //defines margin
           children: <Widget>[
-
             /// 1. TOP TWO BUTTONS
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RaisedButton(
-                  // main page
-                  child: Text(Strings.mainpageButton),
-                  onPressed: (){
-                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // main page
+                    child: Text(Strings.mainpageButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
+                    },
+                  ),
                 ),
-                RaisedButton(
-                  // log out
-                  child: Text(Strings.logoutButton),
-                  onPressed: (){
-                    while(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    };
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // log out
+                    child: Text(Strings.logoutButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      while(Navigator.canPop(context)){
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
 
-            // padding
+            // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
@@ -288,7 +305,6 @@ class _SlitLampState extends State<SlitLamp>{
               ),
               /// COULMN OF TWO ROWS
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   /// ROW FRO PATIENT NAME
                   Row(
@@ -297,8 +313,10 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-
-                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.patientIDTyping + widget.patientID,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -308,7 +326,10 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Text(Strings.profileIDTyping + widget.fileNumber, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.profileIDTyping + widget.fileNumber,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -360,7 +381,8 @@ class _SlitLampState extends State<SlitLamp>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 7. CONFIRM BUTTON
-            Center(
+            Center(child: SizedBox(
+              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
               child: RaisedButton(
                   onPressed: () async {
                     SlitlampTest newslitlampTest = new SlitlampTest(
@@ -383,9 +405,11 @@ class _SlitLampState extends State<SlitLamp>{
 
                     Navigator.push(context, MaterialPageRoute(builder: (context) => PatientData(patientID: widget.patientID, fileNumber: widget.fileNumber,)));
                   },
-                child: Text(Strings.confirm),
+                child: Text(Strings.confirm,
+                  style: TextStyle(fontSize: WORDSIZE),
+                ),
               ),
-            ),
+            ),),
           ],
         ),
       ),
