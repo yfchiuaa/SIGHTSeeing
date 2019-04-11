@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
 import 'dart:async';
 import 'package:myapp/PatientData.dart';
+import 'package:myapp/model/SlitLampTest.dart';
 
 class SlitLamp extends StatefulWidget{
   final String patientID;
@@ -42,6 +43,18 @@ class _SlitLampState extends State<SlitLamp>{
     radioValue = Map();
     formOtherController = Map();
     otherValue = Map();
+  }
+
+  // Decide to get data from othervalue or radiovalue
+  String getData(String key){
+    String result;
+    if (otherValue[key] != null) {
+      result = otherValue[key];
+    }
+    else{
+      result = radioValue[key];
+    }
+    return result;
   }
 
   /// Return a row of radio button
@@ -137,6 +150,8 @@ class _SlitLampState extends State<SlitLamp>{
       children: buttons,
     );
   }
+
+  
 
   /// Return a single test form with left and right eye
   /// @param:
@@ -347,9 +362,22 @@ class _SlitLampState extends State<SlitLamp>{
             /// 7. CONFIRM BUTTON
             Center(
               child: RaisedButton(
-                  onPressed: (){
-                    /// TODO: change the _szveData to connect API
-                    _saveData();
+                  onPressed: () async {
+                    SlitlampTest newslitlampTest = new SlitlampTest(
+                      left_slit_conjunctiva: getData(Strings.slit_conjunctiva+Strings.left),
+                      right_slit_conjunctiva: getData(Strings.slit_conjunctiva+Strings.right),
+                      left_slit_cornea: getData(Strings.slit_cornea+Strings.left),
+                      right_slit_cornea: getData(Strings.slit_cornea+Strings.right),
+                      left_slit_eyelid: getData(Strings.slit_eyelid+Strings.left),
+                      right_slit_eyelid: getData(Strings.slit_eyelid+Strings.right),
+                      left_slit_lens: getData(Strings.slit_lens+Strings.left),
+                      right_slit_lens: getData(Strings.slit_lens+Strings.right),
+                      left_slit_Hirschbergtest: getData(Strings.slit_Hirschbergtest+Strings.left),
+                      right_slit_Hirschbergtest: getData(Strings.slit_Hirschbergtest+Strings.right),
+                      slit_exchange: getData(Strings.slit_exchange),
+                      slit_eyeballshivering: getData(Strings.slit_eyeballshivering)
+                    );
+                    SlitlampTest newData = await createSlitLampTest(widget.patientID, newslitlampTest.toMap());
 
                     /// TODO: add finish alert here
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
 import 'package:myapp/model/DataSummary.dart';
+import 'package:myapp/testPages/Consultation.dart';
+
 
 class PatientData extends StatefulWidget{
   final String patientID;
@@ -39,7 +41,7 @@ class _PatientDataState extends State<PatientData>{
 
     /// Construct the data types
     basicInfoList = [Strings.studentName, Strings.studentNumber, Strings.studentSex, Strings.studentBirth];
-    checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis];
+    checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis]; //Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
 
   }
 
@@ -103,6 +105,31 @@ class _PatientDataState extends State<PatientData>{
                   child: Text(rep.data.opto_astigmatismaxis, textAlign: TextAlign.center,),
                   );
                 }
+                else if (checkInfo == Strings.slit_conjunctiva) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_conjunctiva, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_cornea) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_cornea, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_eyelid) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_eyelid, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_lens) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_lens, textAlign: TextAlign.center,)
+                  );
+                }
+                else if (checkInfo == Strings.slit_Hirschbergtest) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_Hirschbergtest, textAlign: TextAlign.center,),
+                  );
+                }
               }
               else if (rep.hasError){
                 return Text("${rep.error}");
@@ -150,6 +177,31 @@ class _PatientDataState extends State<PatientData>{
                 else if (checkInfo == Strings.opto_astigmatismaxis){
                   return SizedBox(
                   child: Text(rep.data.opto_astigmatismaxis, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_conjunctiva) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_conjunctiva, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_cornea) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_cornea, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_eyelid) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_eyelid, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (checkInfo == Strings.slit_lens) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_lens, textAlign: TextAlign.center,)
+                  );
+                }
+                else if (checkInfo == Strings.slit_Hirschbergtest) {
+                  return SizedBox(
+                    child: Text(rep.data.slit_Hirschbergtest, textAlign: TextAlign.center,),
                   );
                 }
               }
@@ -372,6 +424,18 @@ class _PatientDataState extends State<PatientData>{
               ),
               child: Column(
                 children: _checkWidgetList(),
+              ),
+            ),
+
+            // Sizedbox as padding
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            Center(
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Consultation(fileNumber: widget.fileNumber, patientID: widget.patientID, )));
+                },
+                child: Text(Strings.consultation),
               ),
             )
             
