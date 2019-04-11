@@ -22,6 +22,8 @@ class _UserSearchState extends State<UserSearch>{
   static const double PADDING_RATIO = 0.02;
   // Size for the '用户搜寻‘
   static const double HEADING_FONTSIZE = 40.0;
+  static const double COLUMN_RATIO = 0.08;
+  static const double WORDSIZE = 20.0;
 
   /// INITIATE patient name and filenumber TextEditingController 
   TextEditingController patientNameController;
@@ -47,44 +49,54 @@ class _UserSearchState extends State<UserSearch>{
           padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0),
 
           children: <Widget>[
-            /// 1. THE FIRST PART FOR THE TOP TWO BUTTONS BACK OR LOGOUT
+            /// 1. TOP TWO BUTTONS
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
               children: <Widget>[
-                RaisedButton(
-                  // main page
-                  child: Text(Strings.mainpageButton),
-                  onPressed: (){
-                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // main page
+                    child: Text(Strings.mainpageButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
+                    },
+                  ),
                 ),
-                RaisedButton(
-                  // log out
-                  child: Text(Strings.logoutButton),
-                  onPressed: (){
-                    while(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    };
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // log out
+                    child: Text(Strings.logoutButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      while(Navigator.canPop(context)){
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
-            
-            // TODO: What is this used for 
-            //SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            // Sizedbox as padding
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 2. THE SECOND PART FOR 'USER SEARCH' ICON AND TEXT
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.search),
+                Icon(Icons.search,
+                  size: HEADING_FONTSIZE,
+                ),
                 Text(Strings.searchUsers, style: TextStyle(fontSize: HEADING_FONTSIZE),),
               ],
             ),
 
-            // TODO: What is this used for
-            //SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 3. THE THIRD PART WITH TWO TEXTFIELD
             Container(
@@ -151,7 +163,8 @@ class _UserSearchState extends State<UserSearch>{
 
                   /// 4.THE LAST PART FOR CONFIRM BUTTON AND NAVIGATE TO DIFFERENT STATIONS
                   /// TODO: SHow dialog when we cannot find such patientID when we press the search button
-                  Center(
+                  Center(child: SizedBox(
+                    height: MediaQuery.of(context).size.height * COLUMN_RATIO,
                     child: RaisedButton(
                       onPressed: (){
                         // MaterialPageRoute to vision test by seting isVision to true
@@ -206,9 +219,11 @@ class _UserSearchState extends State<UserSearch>{
                         //patientNameController.clear();
                         //fileNumberController.clear();
                       },
-                      child: Text(Strings.confirm),
+                      child: Text(Strings.confirm,
+                        style: TextStyle(fontSize: WORDSIZE),
+                      ),
                     ),
-                  ),
+                  ),),
                 ],
               ),
             ),

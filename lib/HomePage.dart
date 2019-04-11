@@ -28,12 +28,17 @@ class _HomePageState extends State<HomePage>{
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                RaisedButton(
-                  // log out
-                  child: Text(Strings.logoutButton),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  child: RaisedButton(
+                    // log out
+                    child: Text(Strings.logoutButton,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ],
             ),

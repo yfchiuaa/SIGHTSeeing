@@ -23,9 +23,10 @@ class PatientData extends StatefulWidget{
 class _PatientDataState extends State<PatientData>{
   // Size for '检视档案'
   static const double HEADING_FONTSIZE = 40.0;
-  static const double COLUMN_RATIO = 0.04;
+  static const double COLUMN_RATIO = 0.08;
   static const double PADDING_RATIO = 0.02;
   static const double BOX_BORDER_RADIUS = 15.0;
+  static const double WORDSIZE = 20.0;
   final isLeft = false;
 
   // InfoList: all the information section will be shown in Form Field
@@ -61,7 +62,10 @@ class _PatientDataState extends State<PatientData>{
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-          child: Text( checkInfo, textAlign: TextAlign.center,),
+          child: Center(child: Text( checkInfo,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
         ),
 
         /// Information sizedbox of the data of this section in right eyes
@@ -236,9 +240,15 @@ class _PatientDataState extends State<PatientData>{
             height: MediaQuery.of(context).size.height * COLUMN_RATIO,
           ),
           // Right eye
-          Expanded(child: Text(Strings.right, textAlign: TextAlign.center,),),
+          Expanded(child: Text(Strings.right,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
           // Left eye
-          Expanded(child: Text(Strings.left, textAlign: TextAlign.center,),),
+          Expanded(child: Text(Strings.left,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
         ],
       )
     );
@@ -259,7 +269,10 @@ class _PatientDataState extends State<PatientData>{
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.2,
           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-          child: Text( basicInfo, textAlign: TextAlign.center,),
+          child: Center(child: Text( basicInfo,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
         ),
 
         // TextField for the basic info
@@ -331,21 +344,31 @@ class _PatientDataState extends State<PatientData>{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RaisedButton(
-                  // main page
-                  child: Text(Strings.mainpageButton),
-                  onPressed: (){
-                    Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // main page
+                    child: Text(Strings.mainpageButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
+                    },
+                  ),
                 ),
-                RaisedButton(
-                  // log out
-                  child: Text(Strings.logoutButton),
-                  onPressed: (){
-                    while(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    };
-                  },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                  child: RaisedButton(
+                    // log out
+                    child: Text(Strings.logoutButton,
+                      style: TextStyle(fontSize: WORDSIZE),
+                    ),
+                    onPressed: (){
+                      while(Navigator.canPop(context)){
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -354,7 +377,6 @@ class _PatientDataState extends State<PatientData>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
-            
             //  BOX DECORATION CONTAINER AS MAIN
             Container(
               decoration: BoxDecoration(
@@ -363,7 +385,6 @@ class _PatientDataState extends State<PatientData>{
               ),
               /// COULMN OF TWO ROWS
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   /// ROW FRO PATIENT NAME
                   Row(
@@ -372,8 +393,10 @@ class _PatientDataState extends State<PatientData>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-
-                          child: Text(Strings.patientIDTyping + widget.patientID, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.patientIDTyping + widget.patientID,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -383,7 +406,10 @@ class _PatientDataState extends State<PatientData>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Text(Strings.profileIDTyping + widget.fileNumber, textAlign: TextAlign.left,), // name with parameter
+                          child: Center(child: Text(Strings.profileIDTyping + widget.fileNumber,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: WORDSIZE),
+                          ),), // name with parameter
                         ),
                       ]
                   ),
@@ -430,14 +456,17 @@ class _PatientDataState extends State<PatientData>{
             // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            Center(
+            Center(child: SizedBox(
+              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
               child: RaisedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Consultation(fileNumber: widget.fileNumber, patientID: widget.patientID, )));
                 },
-                child: Text(Strings.consultation),
+                child: Text(Strings.consultation,
+                  style: TextStyle(fontSize: WORDSIZE),
+                ),
               ),
-            )
+            ),),
             
           ],
         ),
