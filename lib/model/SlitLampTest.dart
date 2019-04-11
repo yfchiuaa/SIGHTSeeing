@@ -33,7 +33,36 @@ class SlitlampTest{
 
   factory SlitlampTest.fromJson(Map<String, dynamic> json){
     return SlitlampTest(
-      left_slit_conjunctiva: json['data'][0][]
-    )
+      left_slit_eyelid: json['data'][0]['left_slit_eyelid'],
+      right_slit_eyelid: json['data'][0]['right_slit_eyelid'],
+      left_slit_conjunctiva: json['data'][0]['left_slit_conjunctiva'],
+      right_slit_conjunctiva: json['data'][0]['right_slit_conjunctiva'],
+      left_slit_cornea: json['data'][0]['left_slit_cornea'],
+      right_slit_cornea: json['data'][0]['right_slit_cornea'],
+      left_slit_lens: json['data'][0]['left_slit_lens'],
+      right_slit_lens: json['data'][0]['right_slit_lens'],
+      left_slit_Hirschbergtest: json['data'][0]['left_slit_Hirschbergtest'],
+      right_slit_Hirschbergtest: json['data'][0]['right_slit_Hirschbergtest'],
+      slit_exchange: json['data'][0]['slit_exchange'],
+      slit_eyeballshivering: json['data'][0]['slit_eyeballshivering']
+    );
+  }
+
+  Map toMap(){
+    var map = new Map<String, dynamic>();
+    map['left_slit_eyelid'] = left_slit_eyelid;
+    map['right_slit_eyelid'] = right_slit_eyelid;
+    map['left_slit_conjunctiva'] = left_slit_conjunctiva;
+    map['right_slit_conjunctiva'] = right_slit_conjunctiva;
+    map['left_slit_cornea'] = left_slit_cornea;
+    map['right_slit_cornea'] = right_slit_cornea;
+    map['left_slit_lens'] = left_slit_lens;
+    map['right_slit_lens'] = right_slit_lens;
+    map['left_slit_Hirschbergtest'] = left_slit_Hirschbergtest;
+    map['right_slit_Hirschbergtest'] = right_slit_Hirschbergtest;
+    map['slit_exchange'] = slit_exchange;
+    map['slit_eyeballshivering'] = slit_eyeballshivering;
+
+    return map;
   }
 }

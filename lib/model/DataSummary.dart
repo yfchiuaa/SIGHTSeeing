@@ -59,8 +59,16 @@ class CheckInfo{
   final String opto_diopter;
   final String opto_astigmatism;
   final String opto_astigmatismaxis;
+  final String slit_eyelid;
+  final String slit_conjunctiva;
+  final String slit_cornea;
+  final String slit_lens;
+  final String slit_Hirschbergtest;
+  final String slit_exchange;
+  final String slit_eyeballshivering;
+  
 
-  CheckInfo({this.vision_livingEyeSight, this.vision_bareEyeSight, this.vision_eyeGlasses, this.vision_bestEyeSight, this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis});
+  CheckInfo({this.vision_livingEyeSight, this.vision_bareEyeSight, this.vision_eyeGlasses, this.vision_bestEyeSight, this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis, this.slit_conjunctiva, this.slit_cornea, this.slit_exchange, this.slit_eyeballshivering, this.slit_eyelid, this.slit_Hirschbergtest, this.slit_lens});
 
   factory CheckInfo.fromJson(Map<String, dynamic> json, bool isLeft) {
     if (isLeft){
@@ -71,7 +79,13 @@ class CheckInfo{
         vision_bestEyeSight: json['data'][0]['left_vision_bestEyeSight'],
         opto_diopter: json['data'][0]['left_opto_diopter'],
         opto_astigmatism: json['data'][0]['left_opto_astigmatism'],
-        opto_astigmatismaxis: json['data'][0]['left_opto_astigmatismaxis']
+        opto_astigmatismaxis: json['data'][0]['left_opto_astigmatismaxis'],
+        slit_cornea: json['data'][0]['left_slit_cornea'],
+        slit_conjunctiva: json['data'][0]['left_slit_conjunctiva'],
+        slit_eyelid: json['data'][0]['left_slit_eyelid'],
+        slit_Hirschbergtest: json['data'][0]['left_slit_Hirschbergtest'],
+        slit_lens: json['data'][0]['left_slit_lens']
+        //// TODO: Add the slit_exchage and slit_eyeball
       );
     }
     else{
@@ -82,7 +96,12 @@ class CheckInfo{
         vision_bestEyeSight: json['data'][0]['right_vision_bestEyeSight'],
         opto_diopter: json['data'][0]['right_opto_diopter'],
         opto_astigmatism: json['data'][0]['right_opto_astigmatism'],
-        opto_astigmatismaxis: json['data'][0]['right_opto_astigmatismaxis']
+        opto_astigmatismaxis: json['data'][0]['right_opto_astigmatismaxis'],
+        slit_conjunctiva: json['data'][0]['right_slit_conjunctiva'],
+        slit_cornea: json['data'][0]['right_slit_cornea'],
+        slit_eyelid: json['data'][0]['right_slit_eyelid'],
+        slit_Hirschbergtest: json['data'][0]['right_slit_Hirschbergtest'],
+        slit_lens: json['data'][0]['right_slit_lens']
       );
     }
   }
