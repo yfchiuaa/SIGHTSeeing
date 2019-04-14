@@ -4,9 +4,10 @@ import 'dart:convert';
 
 const URL_RECORD = 'http://localhost:3030/check-record';
 
-Future<OptTest> createOptTest(String patientID, Map body) async {
+Future<OptTest> createOptTest(String patientID, Map<String, dynamic> body) async {
 
   return http.patch('${URL_RECORD}?patient_id=${patientID}', body: body).then((http.Response response) {
+
     final int statusCode = response.statusCode;
  
     if (statusCode < 200 || statusCode > 400 || json == null){

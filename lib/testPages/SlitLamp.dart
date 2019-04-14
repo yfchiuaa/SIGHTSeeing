@@ -48,11 +48,14 @@ class _SlitLampState extends State<SlitLamp>{
 
   // Decide to get data from othervalue or radiovalue
   String getData(String key){
+    print(key);
     String result;
     if (otherValue[key] != null) {
+      print(otherValue[key]);
       result = otherValue[key];
     }
     else{
+      print(radioValue[key]);
       result = radioValue[key];
     }
     return result;
@@ -65,6 +68,7 @@ class _SlitLampState extends State<SlitLamp>{
   Widget radioButtons(List<String> choices, String key){
     List<Widget> buttons = []; // temp. store the widgets need to create inside the row
     if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
+    if(radioValue[key] == null) radioValue[key] = '';
 
     for(String choice in choices){
       // add gesture detectors with loop
@@ -90,13 +94,15 @@ class _SlitLampState extends State<SlitLamp>{
                           child: Text(Strings.confirm),
                           onPressed: (){
                             // save the string to otherValue[]
-                            otherValue[key] = formOtherController[key].toString();
-                            setState(() {
-                              if (radioValue[key] != choice)
-                                radioValue[key] = choice;
-                              else
-                                radioValue[key] = "";
-                            });
+                            otherValue[key] = formOtherController[key].text;
+
+                            // set states
+                            if (radioValue[key] != choice)
+                              radioValue[key] = choice;
+                            else
+                              radioValue[key] = "";
+
+                            setState(() {});
                             Navigator.of(context).pop();
                             },
                         ),
@@ -105,7 +111,7 @@ class _SlitLampState extends State<SlitLamp>{
                           child: Text(Strings.cancel),
                           onPressed: () {
                             // clear the controller if the user say cancel
-                            formOtherController[key].clear();
+                            formOtherController[key].text = '';
                             Navigator.of(context).pop();
                             },
                         ),
@@ -114,18 +120,19 @@ class _SlitLampState extends State<SlitLamp>{
                 );
               }
               else {
+                
                 // because the choice cannot be choosing other, or just cancel the choice, so clear controller
-                formOtherController[key].clear();
+                formOtherController[key].text = '';
                 // also clear the value stored
                 otherValue[key] = "";
 
                 // rebuild the whole widget by changing radio value, to make a certain cell become blur or not blue
-                setState(() {
-                  if (radioValue[key] != choice)
-                    radioValue[key] = choice;
-                  else
-                    radioValue[key] = "";
-                });
+                // set radio values
+                if (radioValue[key] != choice)
+                  radioValue[key] = choice;
+                else
+                  radioValue[key] = "";
+                setState((){});
               }
             },
 

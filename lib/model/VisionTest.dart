@@ -13,7 +13,8 @@ const URL_RECORD = 'http://localhost:3030/check-record';
   @return
   http.post
 */
-Future<VisionTest> createVisionTest(String patientID, Map body) async {
+//// TODO: Solve the problem of List<Dynamic> is not a subtype of Map<Stirng Dynamic>
+Future<VisionTest> createVisionTest(String patientID, Map<String, dynamic> body) async {
   final response = await http.patch('${URL_RECORD}?patient_id=${patientID}', body: body);
 
   if (response.statusCode == 200) {
@@ -53,7 +54,7 @@ class VisionTest{
     );
   }
 
-  // Convert the content of the VisionTest object into a map
+  // Convert the content of the VisionTest object into a map for inputing into create as body
   Map toMap(){
     var map = new Map<String, dynamic>();
     //map['patient_id'] = patient_id;

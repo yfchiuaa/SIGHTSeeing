@@ -42,7 +42,7 @@ class _PatientDataState extends State<PatientData>{
 
     /// Construct the data types
     basicInfoList = [Strings.studentName, Strings.studentNumber, Strings.studentSex, Strings.studentBirth];
-    checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis]; //Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
+    checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis, Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
 
   }
 
@@ -486,7 +486,7 @@ class _PatientDataState extends State<PatientData>{
           FlatButton(
             child: Text(Strings.confirm),
             onPressed: (){
-              _saveData();
+              //_saveData();
               Navigator.of(context).pop(true);
             },
           ),
@@ -501,11 +501,8 @@ class _PatientDataState extends State<PatientData>{
     )??false;
     
   }
+
 }
 
-  
-  void _saveData(){
-    // TODO
-  }
 
 // Updated
