@@ -215,9 +215,7 @@ class _ConsultationState extends State<Consultation> {
                       style: TextStyle(fontSize: WORDSIZE),
                     ),
                     onPressed: (){
-                      while(Navigator.canPop(context)){
-                        Navigator.pop(context);
-                      }
+                      Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
                     },
                   ),
                 ),

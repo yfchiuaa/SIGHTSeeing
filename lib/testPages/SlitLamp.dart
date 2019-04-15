@@ -288,9 +288,7 @@ class _SlitLampState extends State<SlitLamp>{
                       style: TextStyle(fontSize: WORDSIZE),
                     ),
                     onPressed: (){
-                      while(Navigator.canPop(context)){
-                        Navigator.pop(context);
-                      }
+                      Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
                     },
                   ),
                 ),

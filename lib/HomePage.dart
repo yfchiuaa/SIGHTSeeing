@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage>{
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: (){
-                      Navigator.pop(context);
+                      Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
                     },
                   ),
                 ),
@@ -254,7 +254,13 @@ class _HomePageState extends State<HomePage>{
             child: Text(Strings.confirm),
             onPressed: (){
               // pop = true: pop back to login page
-              Navigator.of(context).pop(true);
+              Navigator.of(context).pop();
+              if(Navigator.canPop(context)){
+                Navigator.of(context).pop();
+              }
+              else{
+                Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
+              }
             },
           ),
           // Cancel button
@@ -267,7 +273,7 @@ class _HomePageState extends State<HomePage>{
           ),
         ],
       ),
-    )??false;  // TODO: What is this false used for 
+    )??false;
   }
 
 }
