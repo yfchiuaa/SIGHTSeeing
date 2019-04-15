@@ -64,11 +64,9 @@ class CheckInfo{
   final String slit_cornea;
   final String slit_lens;
   final String slit_Hirschbergtest;
-  final String slit_exchange;
-  final String slit_eyeballshivering;
   
 
-  CheckInfo({this.vision_livingEyeSight, this.vision_bareEyeSight, this.vision_eyeGlasses, this.vision_bestEyeSight, this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis, this.slit_conjunctiva, this.slit_cornea, this.slit_exchange, this.slit_eyeballshivering, this.slit_eyelid, this.slit_Hirschbergtest, this.slit_lens});
+  CheckInfo({this.vision_livingEyeSight, this.vision_bareEyeSight, this.vision_eyeGlasses, this.vision_bestEyeSight, this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis, this.slit_conjunctiva, this.slit_cornea, this.slit_eyelid, this.slit_Hirschbergtest, this.slit_lens});
 
   factory CheckInfo.fromJson(Map<String, dynamic> json, bool isLeft) {
     if (isLeft){
@@ -104,5 +102,29 @@ class CheckInfo{
         slit_lens: json['data'][0]['right_slit_lens']
       );
     }
+  }
+}
+
+Future<SlitExtraInfo> getSlitExtraInfo(String patientID) async{
+  final response = await http.get('${URL_RECORD}?patient_id=${patientID}', headers: {"Accept": "application/json"});
+
+  if (response.statusCode == 200) {
+      return SlitExtraInfo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+}
+
+class SlitExtraInfo{
+  final String slit_exchange;
+  final String slit_eyeballshivering;
+
+  SlitExtraInfo({this.slit_exchange, this.slit_eyeballshivering});
+
+  factory SlitExtraInfo.fromJson(Map<String, dynamic> json){
+    return SlitExtraInfo(
+      slit_exchange: json['data'][0]['slit_exchange'],
+      slit_eyeballshivering: json['data'][0]['slit_eyeballshivering'],
+    );
   }
 }

@@ -48,14 +48,11 @@ class _SlitLampState extends State<SlitLamp>{
 
   // Decide to get data from othervalue or radiovalue
   String getData(String key){
-    print(key);
     String result;
-    if (otherValue[key] != null) {
-      print(otherValue[key]);
+    if (otherValue[key] != null && otherValue[key] != '') {
       result = otherValue[key];
     }
     else{
-      print(radioValue[key]);
       result = radioValue[key];
     }
     return result;

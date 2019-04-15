@@ -34,6 +34,8 @@ class _PatientDataState extends State<PatientData>{
   List<String> basicInfoList;
   // CheckInfoList: the checking information 
   List<String> checkInfoList;
+  // slitExtraInfoList: two extra slit lamp test item
+  List<String> slitExtraInfoList;
   // Map of formField: info section as Key, values as values
 
   @override
@@ -42,7 +44,10 @@ class _PatientDataState extends State<PatientData>{
 
     /// Construct the data types
     basicInfoList = [Strings.studentName, Strings.studentNumber, Strings.studentSex, Strings.studentBirth];
+
     checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis, Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
+
+    slitExtraInfoList = [Strings.slit_exchange, Strings.slit_eyeballshivering];
 
   }
 
@@ -327,6 +332,56 @@ class _PatientDataState extends State<PatientData>{
     return _basicList;
   }
 
+  Row slitExtraRow(String slitExtraInfo){
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        // Name of the extra slitlamp test 
+        SizedBox(
+          width: MediaQuery.of(context).size.width*0.2,
+          height: MediaQuery.of(context).size.height*COLUMN_RATIO,
+          child: Center(child: Text(slitExtraInfo, textAlign: TextAlign.center,
+          style: TextStyle(fontSize: WORDSIZE),
+          ),),
+        ),
+
+        // TextField for the extra info of slit lamp
+        Expanded(
+          child: FutureBuilder<SlitExtraInfo>(
+            future: getSlitExtraInfo(widget.patientID),
+            builder: (context, rep){
+              if (rep.hasData){
+                if (slitExtraInfo == Strings.slit_exchange){
+                  return SizedBox(
+                    child: Text(rep.data.slit_exchange, textAlign: TextAlign.center,),
+                  );
+                }
+                else if (slitExtraInfo == Strings.slit_eyeballshivering){
+                  return SizedBox(
+                    child: Text(rep.data.slit_eyeballshivering, textAlign: TextAlign.center,),
+                  );
+                }
+              }
+              else if (rep.hasError){
+                return Text("${rep.error}");
+              }
+              return CircularProgressIndicator();
+            },
+          )
+        )
+      ],
+    );
+  }
+
+  List<Widget> _slitExtraList(){
+    List<Widget> _slitList = [];
+
+    for (String slitExtraInfo in slitExtraInfoList){
+      _slitList.add(slitExtraRow(slitExtraInfo));
+    }
+
+    return _slitList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -429,7 +484,7 @@ class _PatientDataState extends State<PatientData>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
             /// 4. THE FORMFIELD FOR BASICINFO
-            Container(
+            new Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
                 color: Theme.of(context).disabledColor,
@@ -443,7 +498,7 @@ class _PatientDataState extends State<PatientData>{
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
             
             /// 5. THE FORMFIELD FOR CHECKINFO
-            Container(
+            new Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
                 color: Theme.of(context).disabledColor,
@@ -456,6 +511,21 @@ class _PatientDataState extends State<PatientData>{
             // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
+            /// 6. THE FORMFIELD FOR TWO slitlamp test
+            new Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+                color: Theme.of(context).disabledColor,
+              ),
+              child: Column(
+                children: _slitExtraList(),
+              ),
+            ),
+
+            // Sizedbox as padding
+            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+            /// 7. Confirm button
             Center(child: SizedBox(
               height: MediaQuery.of(context).size.height * COLUMN_RATIO,
               child: RaisedButton(
