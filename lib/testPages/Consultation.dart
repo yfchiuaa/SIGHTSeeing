@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
+import 'package:myapp/model/ConsultRecord.dart';
 
 class Consultation extends StatefulWidget{
   final String patientID;
@@ -47,6 +48,51 @@ class _ConsultationState extends State<Consultation> {
     handleController = new TextEditingController();
   }
 
+  String getData(String key){
+    String result;
+    print(key);
+    if (otherValue[key] != null && otherValue[key] != '') {
+      result = otherValue[key];
+    }
+    else{
+      result = radioValue[key];
+    }
+    return result;
+  }
+  
+  Widget furtherButtons(String key){
+    // Reset the Value of the radioVlaue[key]
+    if(radioValue[key] == null) radioValue[key] = '';
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Expanded(
+          child: GestureDetector(
+            onTap: (){
+            if (radioValue[key] != 'yes'){
+              radioValue[key] = 'yes';
+            }
+            else {
+              radioValue[key] = 'no';
+            }
+
+            setState(() {});
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+              child: Center(child: Text(key, style: TextStyle(fontSize: WORDSIZE), textAlign: TextAlign.center,),),
+              decoration: BoxDecoration(
+                color: (radioValue[key] == 'yes')? Theme.of(context).hintColor: Theme.of(context).disabledColor,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+
+  }
+  
   /// Return a row of radio button
   /// @param:
   /// - choices (List of String): the text showing on the buttons
@@ -54,6 +100,7 @@ class _ConsultationState extends State<Consultation> {
   Widget radioButtons(List<String> choices, String key){
     List<Widget> buttons = []; // temp. store the widgets need to create inside the row
     if(formOtherController[key] == null) formOtherController[key] = new TextEditingController();
+    if(radioValue[key] == null) radioValue[key] = '';
 
     for(String choice in choices){
       // add gesture detectors with loop
@@ -79,13 +126,15 @@ class _ConsultationState extends State<Consultation> {
                                 child: Text(Strings.confirm),
                                 onPressed: (){
                                   // save the string to otherValue[]
-                                  otherValue[key] = formOtherController[key].toString();
-                                  setState(() {
-                                    if (radioValue[key] != choice)
-                                      radioValue[key] = choice;
-                                    else
-                                      radioValue[key] = "";
-                                  });
+                                  otherValue[key] = formOtherController[key].text;
+
+                                  // set states
+                                  if (radioValue[key] != choice)
+                                    radioValue[key] = choice;
+                                  else
+                                    radioValue[key] = "";
+
+                                  setState(() {});
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -94,7 +143,7 @@ class _ConsultationState extends State<Consultation> {
                                 child: Text(Strings.cancel),
                                 onPressed: () {
                                   // clear the controller if the user say cancel
-                                  formOtherController[key].clear();
+                                  formOtherController[key].text = '';
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -104,17 +153,18 @@ class _ConsultationState extends State<Consultation> {
                     }
                     else {
                       // because the choice cannot be choosing other, or just cancel the choice, so clear controller
-                      formOtherController[key].clear();
+                      formOtherController[key].text = '';
                       // also clear the value stored
                       otherValue[key] = "";
 
+                      // set radio values
+                      if (radioValue[key] != choice)
+                        radioValue[key] = choice;
+                      else
+                        radioValue[key] = "";
+
                       // rebuild the whole widget by changing radio value, to make a certain cell become blur or not blue
-                      setState(() {
-                        if (radioValue[key] != choice)
-                          radioValue[key] = choice;
-                        else
-                          radioValue[key] = "";
-                      });
+                      setState((){});
                     }
                   },
 
@@ -273,7 +323,7 @@ class _ConsultationState extends State<Consultation> {
             twoChoiceRowList(Strings.consultation, [Strings.con_normaleyesight, Strings.con_abonormaldiopter, Strings.con_strabismus, Strings.con_trichiasis, Strings.con_conjunctivitis, Strings.choice_others]),
             Center(child: Text( Strings.con_handle, style: TextStyle(fontSize: SUBTITLE_FONTSIZE),),),
 
-            /// 4.處理  row
+            /// 4.handle row
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
@@ -289,6 +339,7 @@ class _ConsultationState extends State<Consultation> {
                     scrollDirection: Axis.vertical,
                     reverse: true,
                     child: new TextField(
+                      controller: handleController,
                       textInputAction: TextInputAction.done,
                       maxLines: null,
                     ),
@@ -309,8 +360,10 @@ class _ConsultationState extends State<Consultation> {
               ),
               child: Column(
                 children: <Widget>[
-                  radioButtons([Strings.con_furtherreview], Strings.con_furtherreview),
-                  radioButtons([Strings.con_furtheroptomery], Strings.con_furtheroptomery),
+                  furtherButtons(Strings.con_furtherreview),
+                  furtherButtons(Strings.con_furtheroptomery),
+                  //radioButtons([Strings.con_furtherreview], Strings.con_furtherreview),
+                  //radioButtons([Strings.con_furtheroptomery], Strings.con_furtheroptomery),
                 ]
               ),
             ),
@@ -339,9 +392,21 @@ class _ConsultationState extends State<Consultation> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * COLUMN_RATIO,
                   child: RaisedButton(
-                    onPressed: () {
-                      // TODO: pop out from the page with save, please search popUntil to pop to the usersearch part
-                      _saveData();
+                    onPressed: () async{
+                      ConsultRecord newConsultRecord = new ConsultRecord(
+                        problmes: getData(Strings.consultation),
+                        //furtheropt: 'yes',
+                        //furtherreview: 'yes',
+                        handle: handleController.text,
+                        furtheropt: radioValue[Strings.con_furtheroptomery],
+                        furtherreview: radioValue[Strings.con_furtherreview]
+
+                      );
+                      ConsultRecord newConsult = await createConsultRecord(widget.patientID, newConsultRecord.toMap());
+
+                      // TODO: Add finish alert here
+
+                      Navigator.pop(context);
                     },
                     child: Text(Strings.confirm,
                       style: TextStyle(fontSize: WORDSIZE),
