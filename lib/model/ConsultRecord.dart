@@ -42,3 +42,5 @@ class ConsultRecord{
     return map;
   }
 }
+
+// Updated
