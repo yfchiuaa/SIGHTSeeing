@@ -13,7 +13,9 @@ Future<OptTest> createOptTest(String patientID, Map<String, dynamic> body) async
     if (statusCode < 200 || statusCode > 400 || json == null){
       throw new Exception("Error while fetching data");
     }
-    return OptTest.fromJson(json.decode(response.body));
+    final rep = json.decode(response.body);
+    final repJson = rep[0];
+    return OptTest.fromJson(repJson);
   });
 }
 
@@ -31,12 +33,12 @@ class OptTest{
   factory OptTest.fromJson(Map<String, dynamic> json){
     return OptTest(
       //patient_id: json['data'][0]['patient_id'],
-      left_opto_diopter: json['data'][0]['left_opto_diopter'],
-      right_opto_diopter: json['data'][0]['right_opto_diopter'],
-      left_opto_astigmatism: json['data'][0]['left_opto_astigmatism'],
-      right_opto_astigmatism: json['data'][0]['right_opto_astigmatism'],
-      left_opto_astigmatismaxis: json['data'][0]['left_opto_astigmatismaxis'],
-      right_opto_astigmatismaxis: json['data'][0]['right_opto_astigmatismaxis'],
+      left_opto_diopter: json['left_opto_diopter'],
+      right_opto_diopter: json['right_opto_diopter'],
+      left_opto_astigmatism: json['left_opto_astigmatism'],
+      right_opto_astigmatism: json['right_opto_astigmatism'],
+      left_opto_astigmatismaxis: json['left_opto_astigmatismaxis'],
+      right_opto_astigmatismaxis: json['right_opto_astigmatismaxis'],
     );
   }
 

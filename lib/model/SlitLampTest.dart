@@ -11,7 +11,9 @@ Future<SlitlampTest> createSlitLampTest(String patientID, Map body) async{
     if (statusCode < 200 || statusCode > 400 || json == null){
       throw new Exception("Error while fetching data");
     }
-    return SlitlampTest.fromJson(json.decode(response.body));
+    final rep = json.decode(response.body);
+    final repJson = rep[0];
+    return SlitlampTest.fromJson(repJson);
   });
 }
 
@@ -33,18 +35,18 @@ class SlitlampTest{
 
   factory SlitlampTest.fromJson(Map<String, dynamic> json){
     return SlitlampTest(
-      left_slit_eyelid: json['data'][0]['left_slit_eyelid'],
-      right_slit_eyelid: json['data'][0]['right_slit_eyelid'],
-      left_slit_conjunctiva: json['data'][0]['left_slit_conjunctiva'],
-      right_slit_conjunctiva: json['data'][0]['right_slit_conjunctiva'],
-      left_slit_cornea: json['data'][0]['left_slit_cornea'],
-      right_slit_cornea: json['data'][0]['right_slit_cornea'],
-      left_slit_lens: json['data'][0]['left_slit_lens'],
-      right_slit_lens: json['data'][0]['right_slit_lens'],
-      left_slit_Hirschbergtest: json['data'][0]['left_slit_Hirschbergtest'],
-      right_slit_Hirschbergtest: json['data'][0]['right_slit_Hirschbergtest'],
-      slit_exchange: json['data'][0]['slit_exchange'],
-      slit_eyeballshivering: json['data'][0]['slit_eyeballshivering']
+      left_slit_eyelid: json['left_slit_eyelid'],
+      right_slit_eyelid: json['right_slit_eyelid'],
+      left_slit_conjunctiva: json['left_slit_conjunctiva'],
+      right_slit_conjunctiva: json['right_slit_conjunctiva'],
+      left_slit_cornea: json['left_slit_cornea'],
+      right_slit_cornea: json['right_slit_cornea'],
+      left_slit_lens: json['left_slit_lens'],
+      right_slit_lens: json['right_slit_lens'],
+      left_slit_Hirschbergtest: json['left_slit_Hirschbergtest'],
+      right_slit_Hirschbergtest: json['right_slit_Hirschbergtest'],
+      slit_exchange: json['slit_exchange'],
+      slit_eyeballshivering: json['slit_eyeballshivering']
     );
   }
 

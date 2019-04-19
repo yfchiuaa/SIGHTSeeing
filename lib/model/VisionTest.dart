@@ -14,11 +14,15 @@ const URL_RECORD = 'http://localhost:3030/check-record';
   http.post
 */
 //// TODO: Solve the problem of List<Dynamic> is not a subtype of Map<Stirng Dynamic>
-Future<VisionTest> createVisionTest(String patientID, Map<String, dynamic> body) async {
+Future<VisionTest> createVisionTest(String patientID, {Map<String, dynamic> body}) async {
   final response = await http.patch('${URL_RECORD}?patient_id=${patientID}', body: body);
-
   if (response.statusCode == 200) {
-    return VisionTest.fromJson(json.decode(response.body));
+    final rep = json.decode(response.body);
+    // Cause before the response body is the array in json['data']
+    // we need to take the body out from array
+    // now redJson is simply the Json format response 
+    final repJson = rep[0];
+    return VisionTest.fromJson(repJson);
   } else {
     throw Exception('Failed to update a Task');
   } 
@@ -42,15 +46,15 @@ class VisionTest{
     return VisionTest(
       //patient_id: json['patient_id'],
 
-      left_vision_livingEyeSight: json['data'][0]['left_vision_livingEyeSight'],
-      left_vision_bareEyeSight: json['data'][0]['left_vision_bareEyeSight'],
-      left_vision_eyeGlasses: json['data'][0]['left_vision_eyeGlasses'],
-      left_vision_bestEyeSight: json['data'][0]['left_vision_bestEyeSight'],
+      left_vision_livingEyeSight: json['left_vision_livingEyeSight'],
+      left_vision_bareEyeSight: json['left_vision_bareEyeSight'],
+      left_vision_eyeGlasses: json['left_vision_eyeGlasses'],
+      left_vision_bestEyeSight: json['left_vision_bestEyeSight'],
 
-      right_vision_livingEyeSight: json['data'][0]['right_vision_livingEyeSight'],
-      right_vision_bareEyeSight: json['data'][0]['right_vision_bareEyeSight'],
-      right_vision_eyeGlasses: json['data'][0]['right_vision_eyeGlasses'],
-      right_vision_bestEyeSight: json['data'][0]['right_vision_bestEyeSight']
+      right_vision_livingEyeSight: json['right_vision_livingEyeSight'],
+      right_vision_bareEyeSight: json['right_vision_bareEyeSight'],
+      right_vision_eyeGlasses: json['right_vision_eyeGlasses'],
+      right_vision_bestEyeSight: json['right_vision_bestEyeSight']
     );
   }
 
@@ -71,4 +75,5 @@ class VisionTest{
 
     return map;
   }
+  
 }

@@ -11,7 +11,9 @@ Future<ConsultRecord> createConsultRecord(String patientID, Map body) async{
     if (statusCode < 200 || statusCode > 400 || json == null){
       throw new Exception("Error while fetching data");
     }
-    return ConsultRecord.fromJson(json.decode(response.body));
+    final rep = json.decode(response.body);
+    final repJson = rep[0];
+    return ConsultRecord.fromJson(repJson);
   });
 }
 
@@ -25,10 +27,10 @@ class ConsultRecord{
 
   factory ConsultRecord.fromJson(Map<String, dynamic> json){
     return ConsultRecord(
-      problmes: json['data'][0]['problems'],
-      handle: json['data'][0]['handle'],
-      furtherreview: json['data'][0]['furtherreview'],
-      furtheropt: json['data'][0]['furtheropt']
+      problmes: json['problems'],
+      handle: json['handle'],
+      furtherreview: json['furtherreview'],
+      furtheropt: json['furtheropt']
     );
   }
 

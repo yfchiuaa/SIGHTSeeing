@@ -284,7 +284,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
                       right_vision_bestEyeSight: rightFieldControllers[Strings.vision_bestEyeSight].text
                     );
                     // Call the API
-                    VisionTest newData = await createVisionTest(widget.patientID, newVisionTest.toMap());
+                    VisionTest newData = await createVisionTest(widget.patientID, body: newVisionTest.toMap());
                   }
                   else{
                     OptTest newOptTest = new OptTest

@@ -50,7 +50,6 @@ class _ConsultationState extends State<Consultation> {
 
   String getData(String key){
     String result;
-    print(key);
     if (otherValue[key] != null && otherValue[key] != '') {
       result = otherValue[key];
     }
@@ -74,7 +73,7 @@ class _ConsultationState extends State<Consultation> {
               radioValue[key] = 'yes';
             }
             else {
-              radioValue[key] = 'no';
+              radioValue[key] = '';
             }
 
             setState(() {});
