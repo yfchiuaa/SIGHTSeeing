@@ -237,29 +237,31 @@ class _HomePageState extends State<HomePage>{
             ),
 
             // Padding for empty space
-            Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),),
+            Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),),
 
             /// REGISTER BUTTON
             GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).disabledColor,
-                  borderRadius: BorderRadius.circular( 9.0 ),
-                ),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).disabledColor,
+                    borderRadius: BorderRadius.circular( 9.0 ),
+                  ),
 
-                // Property of register button
-                height: MediaQuery.of(context).size.width * 0.15,
-                width: MediaQuery.of(context).size.width * 0.3,
+                  // Property of register button
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.5,
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.account_circle, size: 20.0,),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-                    Text(Strings.register,
-                        style: TextStyle(fontSize: 20.0, color: Colors.black)
-                    ),
-                  ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.account_circle, size: 20.0,),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                      Text(Strings.register,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black)
+                      ),
+                    ],
+                  ),
                 ),
               ),
               onTap: () {
