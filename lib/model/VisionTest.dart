@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-const URL_RECORD = 'http://localhost:3030/check-record';
-//const URL_RECORD = 'http://10.0.2.2:3030/check-record';
+//const URL_RECORD = 'http://localhost:3030/check-record';
+const URL_RECORD = 'http://10.0.2.2:3030/check-record';
 
 /*
   # Function that will take the body as a map and POST it to the server as json format
@@ -20,12 +20,12 @@ Future<VisionTest> createVisionTest(String patientID, {Map<String, dynamic> body
     final rep = json.decode(response.body);
     // Cause before the response body is the array in json['data']
     // we need to take the body out from array
-    // now redJson is simply the Json format response 
+    // now redJson is simply the Json format response
     final repJson = rep[0];
     return VisionTest.fromJson(repJson);
   } else {
     throw Exception('Failed to update a Task');
-  } 
+  }
 }
 
 class VisionTest{
@@ -75,5 +75,5 @@ class VisionTest{
 
     return map;
   }
-  
+
 }

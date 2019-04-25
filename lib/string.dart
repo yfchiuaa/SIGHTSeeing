@@ -4,6 +4,7 @@ class Strings{
   static String optometry = '屈光檢查';
   static String hirschberg = '眼位檢查';
   static String reviewingProfile = '检视档案';
+  static String register = '用户注冊';
 
   static String leavingAlertQuestion = '数据尚未储存 是否确定离开';
   static String logoutAlertQuestion = '是否确定注销';
@@ -87,5 +88,8 @@ class Strings{
   static String studentNumber = '学生编号';
   static String studentSex = '学生性别';
   static String studentBirth = '学生年份';
+
+  static String male = '男';
+  static String female = '女';
 }
 

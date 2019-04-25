@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/string.dart';
 import 'UserSearch.dart';
+import 'Register.dart';
 
 class HomePage extends StatefulWidget{
   HomePage({Key key}) : super(key: key);
@@ -233,6 +234,42 @@ class _HomePageState extends State<HomePage>{
                   },
                 ),
               ],
+            ),
+
+            // Padding for empty space
+            Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),),
+
+            /// REGISTER BUTTON
+            GestureDetector(
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).disabledColor,
+                    borderRadius: BorderRadius.circular( 9.0 ),
+                  ),
+
+                  // Property of register button
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.5,
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.account_circle, size: 20.0,),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                      Text(Strings.register,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black)
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              onTap: () {
+                /// define the tap action : push to the desired page
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) =>
+                        Register()));
+              },
             ),
           ],
         ),
