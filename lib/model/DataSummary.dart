@@ -3,8 +3,10 @@ import 'dart:async';
 import 'dart:convert';
 
 
-const URL_STU = 'http://localhost:3030/students';
-const URL_RECORD = 'http://localhost:3030/check-record';
+//const URL_STU = 'http://localhost:3030/students';
+//const URL_RECORD = 'http://localhost:3030/check-record';
+const URL_STU = 'http://10.0.2.2:3030/students';
+const URL_RECORD = 'http://10.0.2.2:3030/check-record';
 
 /*
   # The function that will make use of the http.get method to do GET operation
@@ -30,7 +32,7 @@ class BasicInfo{
 
   BasicInfo({this.name, this.number,this.sex, this.birth});
 
-  // Method that take a 
+  // Method that take a
   factory BasicInfo.fromJson(Map<String, dynamic> json) {
     return BasicInfo(
         name: json['data'][0]['studentName'],
@@ -64,7 +66,7 @@ class CheckInfo{
   final String slit_cornea;
   final String slit_lens;
   final String slit_Hirschbergtest;
-  
+
 
   CheckInfo({this.vision_livingEyeSight, this.vision_bareEyeSight, this.vision_eyeGlasses, this.vision_bestEyeSight, this.opto_diopter, this.opto_astigmatism, this.opto_astigmatismaxis, this.slit_conjunctiva, this.slit_cornea, this.slit_eyelid, this.slit_Hirschbergtest, this.slit_lens});
 

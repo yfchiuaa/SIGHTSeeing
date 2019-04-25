@@ -2,14 +2,16 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-const URL_RECORD = 'http://localhost:3030/check-record';
+// const URL_RECORD = 'http://localhost:3030/check-record';
+const URL_RECORD = 'http://10.0.2.2:3030/check-record';
+
 
 Future<OptTest> createOptTest(String patientID, Map<String, dynamic> body) async {
 
   return http.patch('${URL_RECORD}?patient_id=${patientID}', body: body).then((http.Response response) {
 
     final int statusCode = response.statusCode;
- 
+
     if (statusCode < 200 || statusCode > 400 || json == null){
       throw new Exception("Error while fetching data");
     }
@@ -21,7 +23,7 @@ Future<OptTest> createOptTest(String patientID, Map<String, dynamic> body) async
 
 class OptTest{
   //final String patient_id;
-  final String left_opto_diopter; 
+  final String left_opto_diopter;
   final String right_opto_diopter;
   final String left_opto_astigmatism;
   final String right_opto_astigmatism;
@@ -54,7 +56,7 @@ class OptTest{
 
     return map;
   }
-  
+
 }
 
-// Updated 
+// Updated
