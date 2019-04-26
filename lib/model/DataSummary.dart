@@ -3,27 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 
 
-//const URL_STU = 'http://localhost:3030/students';
-//const URL_RECORD = 'http://localhost:3030/check-record';
-const URL_STU = 'http://10.0.2.2:3030/students';
-const URL_RECORD = 'http://10.0.2.2:3030/check-record';
-
-/*
-  # The function that submit basic student data by http.patch method
- */
-Future<BasicInfo> createBasicInfo(String patientID) async{
-  return http.patch('${URL_RECORD}?patient_id=${patientID}').then((http.Response response) {
-
-    final int statusCode = response.statusCode;
-
-    if (statusCode < 200 || statusCode > 400 || json == null){
-      throw new Exception("Error while fetching data");
-    }
-    final rep = json.decode(response.body);
-    final repJson = rep[0];
-    return BasicInfo.fromJson(repJson);
-  });
-}
+const URL_STU = 'https://api.sightseeing.projects.sight.ust.hk/students';
+const URL_RECORD = 'https://api.sightseeing.projects.sight.ust.hk/check-record';
 
 /*
   # The function that will make use of the http.get method to do GET operation

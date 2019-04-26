@@ -2,8 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-// const URL_RECORD = 'http://localhost:3030/check-record';
-const URL_RECORD = 'http://10.0.2.2:3030/check-record';
+const URL_RECORD = 'https://api.sightseeing.projects.sight.ust.hk/check-record';
 
 Future<SlitlampTest> createSlitLampTest(String patientID, Map body) async{
   return http.patch('${URL_RECORD}?patient_id=${patientID}', body: body).then((http.Response response){

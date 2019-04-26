@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'string.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:myapp/model/Registration.dart';
 
 class Register extends StatefulWidget{
   Register({Key key}) : super(key:key);
@@ -241,9 +242,25 @@ class _RegisterState extends State<Register>{
           Center(child: SizedBox(
             height: MediaQuery.of(context).size.height * COLUMN_RATIO,
             child: RaisedButton(
-              onPressed: (){
+              onPressed: () async{
+                // Write to studenInfo database
+                PatientInfo newPatientInfo = new PatientInfo(
+                  studentName: studentNameController.text,
+                  studentNumber: studentIDController.text,
+                  studentBirth: studentDateOfBirth.toString(),
+                  studentSex: studentSex
+                );
+                PatientInfo patientinfo = await createPatientInfo(newPatientInfo.toMap());
 
+                // Write to check-record database
+                PatientID newPatientID = new PatientID(
+                  patient_id: studentIDController.text
+                );
+                PatientID patientid = await createPatientID(newPatientID.toMap());
+
+                Navigator.pop(context);
               },
+              
               child: Text(Strings.confirm,
                 style: TextStyle(fontSize: WORDSIZE),
               ),

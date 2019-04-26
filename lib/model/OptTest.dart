@@ -2,8 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-// const URL_RECORD = 'http://localhost:3030/check-record';
-const URL_RECORD = 'http://10.0.2.2:3030/check-record';
+const URL_RECORD = 'https://api.sightseeing.projects.sight.ust.hk/check-record';
 
 
 Future<OptTest> createOptTest(String patientID, Map<String, dynamic> body) async {
