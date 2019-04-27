@@ -405,7 +405,10 @@ class _SlitLampState extends State<SlitLamp>{
 
                     /// TODO: add finish alert here
 
+                    /*
                     Navigator.push(context, MaterialPageRoute(builder: (context) => PatientData(patientID: widget.patientID, fileNumber: widget.fileNumber,)));
+                    */
+                    Navigator.pop(context);
                   },
                 child: Text(Strings.confirm,
                   style: TextStyle(fontSize: WORDSIZE),

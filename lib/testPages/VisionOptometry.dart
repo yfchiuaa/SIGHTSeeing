@@ -279,7 +279,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
                       left_vision_eyeGlasses: leftFieldControllers[Strings.vision_eyeGlasses].text,
                       left_vision_bestEyeSight: leftFieldControllers[Strings.vision_bestEyeSight].text,
                       right_vision_livingEyeSight: rightFieldControllers[Strings.vision_livingEyeSight].text,
-                      right_vision_bareEyeSight: leftFieldControllers[Strings.vision_bareEyeSight].text,
+                      right_vision_bareEyeSight: rightFieldControllers[Strings.vision_bareEyeSight].text,
                       right_vision_eyeGlasses: rightFieldControllers[Strings.vision_eyeGlasses].text,
                       right_vision_bestEyeSight: rightFieldControllers[Strings.vision_bestEyeSight].text
                     );
