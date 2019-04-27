@@ -4,6 +4,8 @@ import 'dart:convert';
 
 const URL_RECORD = 'https://api.sightseeing.projects.sight.ust.hk/check-record';
 
+//const URL_RECORD = '';
+
 
 Future<ConsultRecord> createConsultRecord(String patientID, Map body) async{
    return http.patch('${URL_RECORD}?patient_id=${patientID}', body: body).then((http.Response response){

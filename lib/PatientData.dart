@@ -429,6 +429,7 @@ class _PatientDataState extends State<PatientData>{
             // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
+            /*
             /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
             //  BOX DECORATION CONTAINER AS MAIN
             Container(
@@ -472,6 +473,7 @@ class _PatientDataState extends State<PatientData>{
 
             // Sizedbox as padding
             SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+            */
 
             /// 3. PRINT THE TITLE OF THE TEST
             Center(child: Text(Strings.reviewingProfile,
@@ -528,7 +530,10 @@ class _PatientDataState extends State<PatientData>{
               height: MediaQuery.of(context).size.height * COLUMN_RATIO,
               child: RaisedButton(
                 onPressed: () {
+                  /*
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Consultation(fileNumber: widget.fileNumber, patientID: widget.patientID, )));
+                  */
+                  Navigator.pop(context);
                 },
                 child: Text(Strings.consultation,
                   style: TextStyle(fontSize: WORDSIZE),
