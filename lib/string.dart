@@ -4,9 +4,9 @@ class Strings{
   static String optometry = '屈光檢查';
   static String hirschberg = '眼位檢查';
   static String reviewingProfile = '检视档案';
-  static String register = '用户注冊';
+  static String register = '建立档案';
 
-  static String leavingAlertQuestion = '数据尚未储存 是否确定离开';
+  static String leavingAlertQuestion = '数据尚未储存\n是否确定离开';
   static String logoutAlertQuestion = '是否确定注销';
   static String slit_AlertQuestion = '注意事项:';
   static String cancel = '取消';
@@ -16,7 +16,7 @@ class Strings{
   static String loginpassword = '密码';
   static String loginbutton = '登录';
 
-  static String searchUsers = '用户搜寻';
+  static String searchUsers = '档案搜寻';
   static String mainpageButton = '主页';
   static String logoutButton = '注销';
   static String patientName = '姓名';
@@ -87,7 +87,7 @@ class Strings{
   static String studentName = '学生姓名';
   static String studentNumber = '学生编号';
   static String studentSex = '学生性别';
-  static String studentBirth = '学生年份';
+  static String studentBirth = '出生日期';
 
   static String male = '男';
   static String female = '女';

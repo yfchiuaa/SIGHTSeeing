@@ -159,159 +159,176 @@ class _VisionOptometryState extends State<VisionOptometry>{
         resizeToAvoidBottomPadding: false,
         backgroundColor: Theme.of(context).backgroundColor,
 
-        body: ListView(
-          padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0),
-          
-          children: <Widget>[
-            /// 1. TOP TWO BUTTONS
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                  child: RaisedButton(
-                  // main page
-                    child: Text(Strings.mainpageButton,
-                      style: TextStyle(fontSize: WORDSIZE),
-                    ),
-                    onPressed: (){
-                      Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                  child: RaisedButton(
-                    // log out
-                    child: Text(Strings.logoutButton,
-                      style: TextStyle(fontSize: WORDSIZE),
-                    ),
-                    onPressed: (){
-                      Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
-                    },
-                  ),
-                ),
-              ],
-            ),
+        body: GestureDetector(
+          onTap: (){
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: ListView(
+            padding: const EdgeInsets.only(left: 20.0, right:20.0, top:40.0, bottom:40.0),
 
-            // Sizedbox as padding
-            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
-
-            /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
-            //  BOX DECORATION CONTAINER AS MAIN
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
-                color: Theme.of(context).disabledColor,
-              ),
-              /// COULMN OF TWO ROWS
-              child: Column(
+            children: <Widget>[
+              /// 1. TOP TWO BUTTONS
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  /// ROW FRO PATIENT NAME
-                  Row(
-                      children: <Widget>[
-                        /// USE SIZEDBOX AS CONTAINER
-                        SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Center(child: Text(Strings.patientIDTyping + widget.patientID,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: WORDSIZE),
-                          ),), // name with parameter
-                        ),
-                      ]
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                    child: RaisedButton(
+                      // main page
+                      child: Text(Strings.mainpageButton,
+                        style: TextStyle(fontSize: WORDSIZE),
+                      ),
+                      onPressed: (){
+                        Navigator.of(context).pushNamedAndRemoveUntil('/HomePage', ModalRoute.withName('/Login'));
+                      },
+                    ),
                   ),
-                  /// ROW FOR PAPER NUMBER
-                  Row(
-                      children: <Widget>[
-                        SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Center(child: Text(Strings.profileIDTyping + widget.fileNumber,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: WORDSIZE),
-                          ),), // name with parameter
-                        ),
-                      ]
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                    child: RaisedButton(
+                      // log out
+                      child: Text(Strings.logoutButton,
+                        style: TextStyle(fontSize: WORDSIZE),
+                      ),
+                      onPressed: (){
+                        Navigator.of(context).pushNamedAndRemoveUntil('/Login', (Route<dynamic> route) => false);
+                      },
+                    ),
                   ),
                 ],
               ),
-            ),
 
-            // Sizedbox as padding
-            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+              // Sizedbox as padding
+              SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
 
-            /// 3. PRINT THE TITLE OF THE TEST
-            Center(child: Text(
-              // Print vision test if it is vision test, optometry otherwise
-              widget.isVision ? Strings.visionTest : Strings.optometry,
-              style: TextStyle(fontSize: HEADING_FONTSIZE),
-            ),),
-
-            // Sizedbox as padding
-            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
-
-            /// 4. THE FORMFIELD BODY
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
-                color: Theme.of(context).disabledColor,
-              ),
-              child: Column(
-                children: _bodyWidgetList(),
-              ),
-            ),
-
-            // Sizedbox as padding
-            SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
-
-            /// 5. CONFIRM BUTTON
-            Center(child: SizedBox(
-              height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-              child: RaisedButton(
-                onPressed: () async {
-                  if (widget.isVision){
-                    // Construct the visionTest object
-                    VisionTest newVisionTest = new VisionTest(
-                      //patient_id: widget.patientID,
-                      left_vision_livingEyeSight: leftFieldControllers[Strings.vision_livingEyeSight].text,
-                      left_vision_bareEyeSight: leftFieldControllers[Strings.vision_bareEyeSight].text,
-                      left_vision_eyeGlasses: leftFieldControllers[Strings.vision_eyeGlasses].text,
-                      left_vision_bestEyeSight: leftFieldControllers[Strings.vision_bestEyeSight].text,
-                      right_vision_livingEyeSight: rightFieldControllers[Strings.vision_livingEyeSight].text,
-                      right_vision_bareEyeSight: rightFieldControllers[Strings.vision_bareEyeSight].text,
-                      right_vision_eyeGlasses: rightFieldControllers[Strings.vision_eyeGlasses].text,
-                      right_vision_bestEyeSight: rightFieldControllers[Strings.vision_bestEyeSight].text
-                    );
-                    // Call the API
-                    VisionTest newData = await createVisionTest(widget.patientID, body: newVisionTest.toMap());
-                  }
-                  else{
-                    OptTest newOptTest = new OptTest
-                    (
-                      //patient_id: widget.patientID,
-                      left_opto_diopter: leftFieldControllers[Strings.opto_diopter].text,
-                      left_opto_astigmatism: leftFieldControllers[Strings.opto_astigmatism].text,
-                      left_opto_astigmatismaxis: leftFieldControllers[Strings.opto_astigmatismaxis].text,
-                      right_opto_diopter: rightFieldControllers[Strings.opto_diopter].text,
-                      right_opto_astigmatism: rightFieldControllers[Strings.opto_astigmatism].text,
-                      right_opto_astigmatismaxis: rightFieldControllers[Strings.opto_astigmatismaxis].text,
-                    );
-                    OptTest newData = await createOptTest(widget.patientID, newOptTest.toMap());
-                  }
-
-                  // TODO: add finish alert here
-                  Navigator.pop(context);
-                },
-                child: Text(Strings.confirm,
-                  style: TextStyle(fontSize: WORDSIZE)
+              /// 2. COLUMNS WITH PATIENT NAME AND PAPER NUMBER
+              //  BOX DECORATION CONTAINER AS MAIN
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+                  color: Theme.of(context).disabledColor,
+                ),
+                /// COULMN OF TWO ROWS
+                child: Column(
+                  children: <Widget>[
+                    /// ROW FRO PATIENT NAME
+                    Row(
+                        children: <Widget>[
+                          /// USE SIZEDBOX AS CONTAINER
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                            child: Center(child: Text(Strings.patientIDTyping,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: WORDSIZE),
+                            ),), // name with parameter
+                          ),
+                          /* TODO: please build your future scraping
+                          FutureBuilder(
+                            future: ,
+                              builder:
+                          ),
+                          */
+                        ]
+                    ),
+                    /// ROW FOR PAPER NUMBER
+                    Row(
+                        children: <Widget>[
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                            child: Center(child: Text(Strings.profileIDTyping,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: WORDSIZE),
+                            ),), // name with parameter
+                          ),
+                          /* TODO: please build your future scraping
+                          FutureBuilder(
+                            future: ,
+                              builder:
+                          ),
+                          */
+                        ]
+                    ),
+                  ],
                 ),
               ),
-            ),),
 
-            /// 6. PREVENT BUTTON CANNOT PRESS BY IOS DECIMAL KEYBOARD
-            SizedBox(height: MediaQuery.of(context).size.height / 2,)
-          ],
+              // Sizedbox as padding
+              SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+              /// 3. PRINT THE TITLE OF THE TEST
+              Center(child: Text(
+                // Print vision test if it is vision test, optometry otherwise
+                widget.isVision ? Strings.visionTest : Strings.optometry,
+                style: TextStyle(fontSize: HEADING_FONTSIZE),
+              ),),
+
+              // Sizedbox as padding
+              SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+              /// 4. THE FORMFIELD BODY
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(BOX_BORDER_RADIUS)),
+                  color: Theme.of(context).disabledColor,
+                ),
+                child: Column(
+                  children: _bodyWidgetList(),
+                ),
+              ),
+
+              // Sizedbox as padding
+              SizedBox(height: MediaQuery.of(context).size.height * PADDING_RATIO,),
+
+              /// 5. CONFIRM BUTTON
+              Center(child: SizedBox(
+                height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                child: RaisedButton(
+                  onPressed: () async {
+                    if (widget.isVision){
+                      // Construct the visionTest object
+                      VisionTest newVisionTest = new VisionTest(
+                        //patient_id: widget.patientID,
+                          left_vision_livingEyeSight: leftFieldControllers[Strings.vision_livingEyeSight].text,
+                          left_vision_bareEyeSight: leftFieldControllers[Strings.vision_bareEyeSight].text,
+                          left_vision_eyeGlasses: leftFieldControllers[Strings.vision_eyeGlasses].text,
+                          left_vision_bestEyeSight: leftFieldControllers[Strings.vision_bestEyeSight].text,
+                          right_vision_livingEyeSight: rightFieldControllers[Strings.vision_livingEyeSight].text,
+                          right_vision_bareEyeSight: rightFieldControllers[Strings.vision_bareEyeSight].text,
+                          right_vision_eyeGlasses: rightFieldControllers[Strings.vision_eyeGlasses].text,
+                          right_vision_bestEyeSight: rightFieldControllers[Strings.vision_bestEyeSight].text
+                      );
+                      // Call the API
+                      VisionTest newData = await createVisionTest(widget.patientID, body: newVisionTest.toMap());
+                    }
+                    else{
+                      OptTest newOptTest = new OptTest
+                        (
+                        //patient_id: widget.patientID,
+                        left_opto_diopter: leftFieldControllers[Strings.opto_diopter].text,
+                        left_opto_astigmatism: leftFieldControllers[Strings.opto_astigmatism].text,
+                        left_opto_astigmatismaxis: leftFieldControllers[Strings.opto_astigmatismaxis].text,
+                        right_opto_diopter: rightFieldControllers[Strings.opto_diopter].text,
+                        right_opto_astigmatism: rightFieldControllers[Strings.opto_astigmatism].text,
+                        right_opto_astigmatismaxis: rightFieldControllers[Strings.opto_astigmatismaxis].text,
+                      );
+                      OptTest newData = await createOptTest(widget.patientID, newOptTest.toMap());
+                    }
+
+                    // TODO: add finish alert here
+                    Navigator.pop(context);
+                  },
+                  child: Text(Strings.confirm,
+                      style: TextStyle(fontSize: WORDSIZE)
+                  ),
+                ),
+              ),),
+
+              /// 6. PREVENT BUTTON CANNOT PRESS BY IOS DECIMAL KEYBOARD
+              SizedBox(height: MediaQuery.of(context).size.height / 2,)
+            ],
+          ),
         ),
       ),
     );
@@ -323,7 +340,7 @@ class _VisionOptometryState extends State<VisionOptometry>{
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(Strings.leavingAlertQuestion),
+        title: Text(Strings.leavingAlertQuestion, textAlign: TextAlign.center,),
         actions: <Widget>[
           FlatButton(
             child: Text(Strings.confirm),
