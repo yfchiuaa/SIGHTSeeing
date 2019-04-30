@@ -58,7 +58,6 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
           child: Form(
             child: Theme(
-              // TODO: What is this theme data set for
               data:ThemeData(
                   brightness:Brightness.dark, //primarySwatch: Colors.black87,
                   inputDecorationTheme: InputDecorationTheme(

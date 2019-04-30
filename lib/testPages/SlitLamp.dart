@@ -315,11 +315,17 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Center(child: Text(Strings.patientIDTyping + widget.patientID,
+                          child: Center(child: Text(Strings.patientIDTyping,
                             textAlign: TextAlign.left,
                             style: TextStyle(fontSize: WORDSIZE),
                           ),), // name with parameter
                         ),
+                        /* TODO: please build your future scraping
+                          FutureBuilder(
+                            future: ,
+                              builder:
+                          ),
+                          */
                       ]
                   ),
                   /// ROW FOR PAPER NUMBER
@@ -328,11 +334,17 @@ class _SlitLampState extends State<SlitLamp>{
                         SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * COLUMN_RATIO,
-                          child: Center(child: Text(Strings.profileIDTyping + widget.fileNumber,
+                          child: Center(child: Text(Strings.profileIDTyping,
                             textAlign: TextAlign.left,
                             style: TextStyle(fontSize: WORDSIZE),
                           ),), // name with parameter
                         ),
+                        /* TODO: please build your future scraping
+                          FutureBuilder(
+                            future: ,
+                              builder:
+                          ),
+                          */
                       ]
                   ),
                 ],
@@ -427,7 +439,7 @@ class _SlitLampState extends State<SlitLamp>{
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(Strings.leavingAlertQuestion),
+        title: Text(Strings.leavingAlertQuestion, textAlign: TextAlign.center,),
         actions: <Widget>[
           FlatButton(
             child: Text(Strings.confirm),

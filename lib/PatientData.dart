@@ -45,7 +45,7 @@ class _PatientDataState extends State<PatientData>{
     /// Construct the data types
     basicInfoList = [Strings.studentName, Strings.studentNumber, Strings.studentSex, Strings.studentBirth];
 
-    checkInfoList = [Strings.vision_bareEyeSight, Strings.vision_bestEyeSight, Strings.vision_eyeGlasses, Strings.vision_livingEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis, Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
+    checkInfoList = [Strings.vision_livingEyeSight, Strings.vision_bareEyeSight, Strings.vision_eyeGlasses, Strings.vision_bestEyeSight, Strings.opto_diopter, Strings.opto_astigmatism, Strings.opto_astigmatismaxis, Strings.slit_conjunctiva, Strings.slit_cornea,Strings.slit_eyelid, Strings.slit_Hirschbergtest, Strings.slit_lens];
 
     slitExtraInfoList = [Strings.slit_exchange, Strings.slit_eyeballshivering];
 
@@ -143,7 +143,7 @@ class _PatientDataState extends State<PatientData>{
               else if (rep.hasError){
                 return Text("${rep.error}");
               }
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             },
           )
         ),
@@ -217,7 +217,7 @@ class _PatientDataState extends State<PatientData>{
               else if (rep.hasError){
                 return Text("${rep.error}");
               }
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             },
           )
           
@@ -225,6 +225,36 @@ class _PatientDataState extends State<PatientData>{
       ],
     );
   }
+
+  /*
+  Row consultationRow(String consultationInfo){
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        // Name of the info section
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+          child: Center(child: Text( consultationInfo,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: WORDSIZE),
+          ),),
+        ),
+
+        // Future builder of the text result
+        Expanded(
+          child: FutureBuilder(
+            future: getConsultationInfo(),
+              builder: (context, rep){
+
+              }
+          ),
+
+        ),
+      ],
+    );
+  }
+  */
 
   /*
     # Function for takeing all check info sections from checkInfo and create the corresponding textFieldRow
@@ -310,7 +340,7 @@ class _PatientDataState extends State<PatientData>{
               else if (rep.hasError){
                 return Text("${rep.error}");
               }
-              return CircularProgressIndicator();
+              return Center(child:CircularProgressIndicator());
             },
           )
         )
@@ -385,9 +415,7 @@ class _PatientDataState extends State<PatientData>{
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onBackPressed,
-      child: Scaffold(
+    return Scaffold(
         resizeToAvoidBottomPadding: false,
         backgroundColor: Theme.of(context).backgroundColor,
 
@@ -535,7 +563,7 @@ class _PatientDataState extends State<PatientData>{
                   */
                   Navigator.pop(context);
                 },
-                child: Text(Strings.consultation,
+                child: Text(Strings.confirm,
                   style: TextStyle(fontSize: WORDSIZE),
                 ),
               ),
@@ -543,39 +571,6 @@ class _PatientDataState extends State<PatientData>{
             
           ],
         ),
-      ),
     );
   }
-
-  /// function defines the action after back button is pressed
-  /// what is doing now: pop out a alert window with 2 buttons, save or back
-  Future<bool> _onBackPressed() {
-    
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(Strings.leavingAlertQuestion),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(Strings.confirm),
-            onPressed: (){
-              //_saveData();
-              Navigator.of(context).pop(true);
-            },
-          ),
-          FlatButton(
-            child: Text(Strings.cancel),
-            onPressed: (){
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
-      ),
-    )??false;
-    
-  }
-
 }
-
-
-// Updated

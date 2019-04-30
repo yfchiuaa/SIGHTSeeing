@@ -181,24 +181,51 @@ class _RegisterState extends State<Register>{
                         style: TextStyle(fontSize: WORDSIZE),
                       ),),
                     ),
-                    Expanded(
-                      child: Text(studentSex,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: WORDSIZE),
-                      ),
-                    ),
                     /// choose list for that info
-                    PopupMenuButton<String>(
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                          new PopupMenuItem(value: Strings.male, child: new Text(Strings.male, textAlign: TextAlign.center,)),
-                          new PopupMenuDivider(height: 1.0,),
-                          new PopupMenuItem(value: Strings.female, child: new Text(Strings.female, textAlign: TextAlign.center,))
-                        ],
-                        onSelected: (String value) {
-                          setState(() {
-                            studentSex = value;
-                          });
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){
+                          if(studentSex == Strings.male){
+                            studentSex = "";
+                          }
+                          else studentSex = Strings.male;
+
+                          setState(() {});
                         },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                          decoration: BoxDecoration(
+                            color: (studentSex == Strings.male) ? Theme.of(context).hintColor: Theme.of(context).disabledColor,
+                          ),
+                          child: Center(child: Text(Strings.male,
+                            style: TextStyle(fontSize: WORDSIZE),
+                            textAlign: TextAlign.center,
+                          ),),
+                        ),
+                      )
+                    ),
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            if(studentSex == Strings.female){
+                              studentSex = "";
+                            }
+                            else studentSex = Strings.female;
+
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * COLUMN_RATIO,
+                            decoration: BoxDecoration(
+                              color: (studentSex == Strings.female) ? Theme.of(context).hintColor: Theme.of(context).disabledColor,
+                            ),
+
+                            child:  Center(child: Text(Strings.female,
+                              style: TextStyle(fontSize: WORDSIZE),
+                              textAlign: TextAlign.center,
+                            ),),
+                          ),
+                        )
                     ),
                   ],
                 ),
@@ -243,11 +270,13 @@ class _RegisterState extends State<Register>{
             height: MediaQuery.of(context).size.height * COLUMN_RATIO,
             child: RaisedButton(
               onPressed: () async{
+
+                // TODO : please check whether the file number exist in db first berofe creating patirntInfo, if exist, please update instead of creating one more data
                 // Write to studenInfo database
                 PatientInfo newPatientInfo = new PatientInfo(
                   studentName: studentNameController.text,
                   studentNumber: studentIDController.text,
-                  studentBirth: studentDateOfBirth.toString(),
+                  studentBirth: DateFormat('yyyy-MM-dd').format(studentDateOfBirth),
                   studentSex: studentSex
                 );
                 PatientInfo patientinfo = await createPatientInfo(newPatientInfo.toMap());
